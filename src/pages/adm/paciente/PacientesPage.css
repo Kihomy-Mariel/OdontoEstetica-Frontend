@@ -1,0 +1,98 @@
+.pacientes-container {
+  padding: 2rem;
+}
+
+.title {
+  color: #1976d2;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filtro-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.65rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline-color: #1976d2;
+}
+
+.tabla-scroll {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.pacientes-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  table-layout: auto;
+  min-width: 1000px;
+}
+
+.pacientes-table th,
+.pacientes-table td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.pacientes-table thead {
+  background-color: #f0f6ff;
+  color: #333;
+}
+
+.pacientes-table tr:hover {
+  background-color: #f9fbff;
+}
+
+@media (max-width: 768px) {
+  .pacientes-table {
+    font-size: 0.85rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+}
+
+.acciones-cell {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilo base para ambos botones */
+.btn-hc,
+.btn-view {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  color: #1976d2; /* color primario */
+}
+
+/* Hover con fondo suave y color más oscuro */
+.btn-hc:hover,
+.btn-view:hover {
+  background: rgba(25, 118, 210, 0.1);
+  color: #125ca1;
+}
+
+/* Opcional: foco accesible */
+.btn-hc:focus,
+.btn-view:focus {
+  outline: 2px solid rgba(25, 118, 210, 0.5);
+}
+

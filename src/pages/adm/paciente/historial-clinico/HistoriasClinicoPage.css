@@ -1,0 +1,52 @@
+.historias-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+.page-title {
+  color: #1976d2;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.filtro-input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  outline-color: #1976d2;
+}
+.tabla-scroll {
+  overflow-x: auto;
+}
+.historias-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+.historias-table th,
+.historias-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.historias-table th {
+  background: #f0f6ff;
+  font-weight: 600;
+}
+.historias-table tr {
+  background: #fafafa;
+  border-radius: 6px;
+}
+.btn-view {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1976d2;
+  transition: color 0.2s;
+}
+.btn-view:hover {
+  color: #125ca1;
+}

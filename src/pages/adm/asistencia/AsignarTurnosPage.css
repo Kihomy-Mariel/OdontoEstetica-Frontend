@@ -1,0 +1,51 @@
+/* src/pages/adm/asistencia/AsignarTurnosPage.css */
+.asignar-turno-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.asignar-turno-container h2 {
+  color: #1976d2;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+}
+
+.asignar-turno-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.asignar-turno-container label {
+  font-weight: 500;
+  color: #333;
+}
+
+.asignar-turno-container select,
+.asignar-turno-container input[type="time"] {
+  padding: 0.65rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline-color: #1976d2;
+  font-size: 1rem;
+}
+
+.btn-submit {
+  margin-top: 1.5rem;
+  background: #1976d2;
+  color: #fff;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-submit:hover {
+  background: #125ca1;
+}

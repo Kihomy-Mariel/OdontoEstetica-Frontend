@@ -1,0 +1,46 @@
+.odontograma-detalle-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+.odontograma-detalle-container h2 {
+  color: #1976d2;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.dientes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.diente-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.diente-numero {
+  font-weight: 500;
+}
+
+.btn-ver-detalle {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-ver-detalle:hover {
+  background: #125ca1;
+}

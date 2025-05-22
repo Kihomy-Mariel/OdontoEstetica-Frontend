@@ -1,0 +1,119 @@
+/* src/pages/adm/odontograma/RegistrarOdontogramaPage.css */
+
+.reg-odo-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.reg-odo-container h2 {
+  color: var(--primary);
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.reg-odo-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.reg-odo-form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.reg-odo-form input,
+.reg-odo-form textarea,
+.reg-odo-form select {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.reg-odo-form input:focus,
+.reg-odo-form textarea:focus,
+.reg-odo-form select:focus {
+  border-color: var(--primary);
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-add {
+  background: var(--primary-light);
+  border: 1px solid var(--primary);
+  color: var(--primary-dark);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 0.8rem;
+}
+
+.detalle-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.btn-submit {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1.2rem;
+}
+
+.btn-submit:hover {
+  background: var(--primary-dark);
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .detalle-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* RegistrarOdontogramaPage.css */
+
+/* Asegúrate de que el contenedor esté centrando ítems */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;       /* un pelín más de separación */
+  margin-bottom: 1rem;
+}
+
+/* Agranda el “cuadrito” y manténlo alineado */
+.checkbox-group input[type="checkbox"] {
+  /* Ajusta el tamaño a tu gusto */
+  width: 1.4rem;
+  height: 1.4rem;
+  /* centrado vertical dentro del flex */
+  margin: 0;
+  /* opcional: suaviza al hacer hover o focus */
+  cursor: pointer;
+  accent-color: var(--primary); /* para que el tick se pinte en tu color primario */
+}
+
+/* Etiqueta al lado */
+.checkbox-group label {
+  font-size: 1rem;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+

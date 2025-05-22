@@ -1,0 +1,113 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #e6f0fa;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-card {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.logo {
+  width: 70px;
+  margin-bottom: 15px;
+}
+
+.title {
+  color: #1f4ed8;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 0.9em;
+  margin-bottom: 25px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-form label {
+  text-align: left;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.login-form input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-form input:focus {
+  border-color: #1f4ed8;
+  outline: none;
+}
+
+.forgot {
+  text-align: right;
+  font-size: 0.8em;
+}
+
+.forgot a {
+  color: #1f4ed8;
+  text-decoration: none;
+}
+
+.forgot a:hover {
+  text-decoration: underline;
+}
+
+.login-form button {
+  background-color: #1f4ed8;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #143ab8;
+}
+
+.register-text {
+  font-size: 0.85em;
+  margin-top: 10px;
+  color: #555;
+}
+
+.register-text a {
+  color: #1f4ed8;
+  text-decoration: none;
+}
+
+.register-text a:hover {
+  text-decoration: underline;
+}

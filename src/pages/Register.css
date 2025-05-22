@@ -1,0 +1,129 @@
+/* Register.css */
+
+:root {
+  --primary: #1565c0;          /* Azul oscuro principal */
+  --primary-dark: #0d47a1;     /* Azul más intenso para hover */
+  --primary-light: #e3f2fd;    /* Azul pastel claro */
+  --bg-page: #eaf6ff;          /* Fondo pastel de toda la página */
+  --text-dark: #1e2a38;
+  --text-light: #52606d;
+  --border: #cbd5e1;
+  --radius: 10px;
+  --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--bg-page);
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.register-card h1 {
+  margin: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+/* Formulario */
+.register-card form {
+  padding: 1.5rem;
+}
+
+.register-card label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+}
+
+.register-card input,
+.register-card select {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.register-card input:focus,
+.register-card select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.2);
+}
+
+/* Botón */
+.register-card .submit-btn {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.register-card .submit-btn:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.register-card .submit-btn:disabled {
+  background: #91c3f2;
+  cursor: not-allowed;
+}
+
+/* Enlaces y pie */
+.register-card p {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.register-card p a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-card p a:hover {
+  text-decoration: underline;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .register-card {
+    margin: 0 1rem;
+  }
+}

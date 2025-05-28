@@ -35,7 +35,7 @@ export const Login = () => {
         <div className="card-header">
           <img src="public/logo.png" alt="Odonto Estética" />
           <h1>Odonto Estética</h1>
-          <p>Iniciar sesión en el sistema</p>
+          <p>Iniciar sesión en el sistema por favor</p>
         </div>
 
         {/* Cuerpo */}

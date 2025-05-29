@@ -42,6 +42,9 @@ export const AdminLayout = ({ children, setVista }) => {
                     <button onClick={() => navigate("/turnos")}>
                         <Users size={16} /> Turnos
                     </button>
+                    <button onClick={() => navigate("/servicios")}>
+                        <Users size={16} /> Servicios
+                    </button>
                 </nav>
             </aside>
             <main className="main-content">{children}</main>

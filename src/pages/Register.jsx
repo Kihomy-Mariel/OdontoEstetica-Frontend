@@ -1,28 +1,18 @@
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerCompletoThunk } from '../store/slices/usuario.slice';
 import './Register.css';
 
-
-const rolToId = {
-    ODONTOLOGO: 1,
-    ASISTENTE: 2,
-    PACIENTE: 3,
-    AUXILIAR: 4,
-};
-
 export const Register = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { loading, error } = useSelector(state => state.usuario);
 
-    // Estado único para todo el formulario
     const [form, setForm] = useState({
         username: '',
         password: '',
-        rol: 'PACIENTE',
+        confirmPassword: '',
         habilitado: true,
         persona: {
             nombres: '',
@@ -34,148 +24,179 @@ export const Register = () => {
             email: '',
         },
         paciente: { alergias: '' },
-        empleado: { cargo: '', especialidad: '' },
     });
 
     const onChange = (section, field) => e => {
-        const value = e.target.type === 'checkbox'
-            ? e.target.checked
-            : e.target.value;
-
-        setForm(f => {
-            // Si viene sección (persona, paciente, empleado), actualizamos anidado:
-            if (section) {
-                return {
-                    ...f,
-                    [section]: {
-                        ...f[section],
-                        [field]: value,
-                    },
-                };
-            }
-            // Si no, actualizamos un campo “top‐level” (no debería llegar aquí si usas onTopChange)
-            return {
-                ...f,
-                [field]: value,
-            };
-        });
-    };
-
-
-    // Handler más sencillo para campos top-level
-    const onTopChange = key => e => {
         const value = e.target.value;
         setForm(f => ({
             ...f,
-            [key]: value,
+            [section]: {
+                ...f[section],
+                [field]: value,
+            },
         }));
     };
+
+    const onTopChange = key => e => {
+        setForm(f => ({
+            ...f,
+            [key]: e.target.value,
+        }));
+    };
+
     const handleSubmit = e => {
         e.preventDefault();
+        if (form.password !== form.confirmPassword) {
+            alert('Las contraseñas no coinciden');
+            return;
+        }
         const payload = {
             username: form.username,
             password: form.password,
-            habilitado: form.habilitado,
-            idRol: rolToId[form.rol],
+            habilitado: true,
             persona: form.persona,
-            ...(form.rol === 'PACIENTE'
-                ? { paciente: form.paciente }
-                : { empleado: form.empleado }),
+            paciente: form.paciente,
         };
         dispatch(registerCompletoThunk(payload, navigate));
     };
 
     return (
-        <div className="register-container">
-            <div className="register-card">
-                <h1>Crear Cuenta</h1>
-                {error && <div className="error">{error}</div>}
-                <form onSubmit={handleSubmit}>
-                    {/* USUARIO */}
-                    <label>Usuario</label>
-                    <input
-                        type="text"
-                        value={form.username}
-                        onChange={onTopChange('username')}
-                        required
-                    />
+        <div className="register-bg">
+            <div className="register-center">
+                <div className="register-card">
+                    <div className="card-header">
+                        <img src="public/logo.png" alt="Odonto Estética" />
+                        <h1>Odonto Estética</h1>
+                        <p>Registro de pacientes</p>
+                    </div>
+                    {error && <div className="error">{error}</div>}
+                    <form onSubmit={handleSubmit} autoComplete="off">
+                        {/* DATOS DE USUARIO */}
+                        <h2 className="form-section-title">Datos de usuario</h2>
+                        <div className="form-grid">
+                            <div className="form-col">
+                                <label>Usuario</label>
+                                <input
+                                    type="text"
+                                    placeholder="Cree un nombre de usuario"
+                                    value={form.username}
+                                    onChange={onTopChange('username')}
+                                    minLength={3}
+                                    maxLength={32}
+                                    required
+                                />
+                                <label>Contraseña</label>
+                                <input
+                                    type="password"
+                                    placeholder="Cree una contraseña"
+                                    value={form.password}
+                                    onChange={onTopChange('password')}
+                                    minLength={6}
+                                    required
+                                />
+                            </div>
+                            <div className="form-col">
+                                <label>Confirmar Contraseña</label>
+                                <input
+                                    type="password"
+                                    placeholder="Confirme su contraseña"
+                                    value={form.confirmPassword}
+                                    onChange={onTopChange('confirmPassword')}
+                                    minLength={6}
+                                    required
+                                />
+                            </div>
+                        </div>
 
-                    <label>Contraseña</label>
-                    <input
-                        type="password"
-                        value={form.password}
-                        onChange={onTopChange('password')}
-                        required
-                    />
+                        {/* DATOS PERSONALES */}
+                        <h2 className="form-section-title">Datos personales</h2>
+                        <div className="form-grid">
+                            <div className="form-col">
+                                <label>Nombres</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ingrese solo sus nombres"
+                                    value={form.persona.nombres}
+                                    onChange={onChange('persona', 'nombres')}
+                                    required
+                                />
+                                <label>Apellido Paterno</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ingrese su apellido paterno"
+                                    value={form.persona.apellidoPaterno}
+                                    onChange={onChange('persona', 'apellidoPaterno')}
+                                    required
+                                />
+                                <label>Apellido Materno</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ingrese su apellido materno"
+                                    value={form.persona.apellidoMaterno}
+                                    onChange={onChange('persona', 'apellidoMaterno')}
+                                    required
+                                />
+                            </div>
+                            <div className="form-col">
+                                <label>Cédula de Identidad</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ingrese su cédula de identidad"
+                                    value={form.persona.ci}
+                                    onChange={onChange('persona', 'ci')}
+                                    required
+                                />
+                                <label>Teléfono</label>
+                                <input
+                                    type="tel"
+                                    placeholder="Ingrese su número de teléfono"
+                                    value={form.persona.telefono}
+                                    onChange={onChange('persona', 'telefono')}
+                                    required
+                                />
+                                <label>Correo Electrónico</label>
+                                <input
+                                    type="email"
+                                    placeholder="ejemplo@correo.com"
+                                    value={form.persona.email}
+                                    onChange={onChange('persona', 'email')}
+                                    required
+                                />
+                                <label>Fecha de Nacimiento</label>
+                                <input
+                                    type="date"
+                                    placeholder="Seleccione una fecha"
+                                    value={form.persona.fechaNacimiento}
+                                    onChange={onChange('persona', 'fechaNacimiento')}
+                                    required
+                                />
+                            </div>
+                        </div>
 
-                    <label>Rol</label>
-                    <select
-                        value={form.rol}
-                        onChange={onTopChange('rol')}
-                    >
-                        <option>PACIENTE</option>
-                        <option>ODONTOLOGO</option>
-                        <option>ASISTENTE</option>
-                        <option>AUXILIAR</option>
-                    </select>
+                        {/* DATOS PACIENTE */}
+                        <h2 className="form-section-title">Datos de paciente</h2>
+                        <label>Alergias (opcional)</label>
+                        <input
+                            type="text"
+                            placeholder="Alergias (opcional)"
+                            value={form.paciente.alergias}
+                            onChange={onChange('paciente', 'alergias')}
+                            className="alergias-input"
+                        />
 
-                    {/* DATOS DE PERSONA */}
-                    <h2>Datos Personales</h2>
-                    {['nombres', 'apellidoPaterno', 'apellidoMaterno', 'ci', 'fechaNacimiento', 'telefono', 'email'].map(field => (
-                        <React.Fragment key={field}>
-                            <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                            <input
-                                type={field === 'fechaNacimiento' ? 'date' : 'text'}
-                                value={form.persona[field]}
-                                onChange={onChange('persona', field)}
-                                required
-                            />
-                        </React.Fragment>
-                    ))}
+                        <button
+                            type="submit"
+                            className="submit-btn"
+                            disabled={loading}
+                        >
+                            {loading ? 'Registrando…' : 'Registrar'}
+                        </button>
+                    </form>
 
-                    {/* DATOS DE PACIENTE O EMPLEADO */}
-                    {form.rol === 'PACIENTE' ? (
-                        <>
-                            <h2>Información de Paciente</h2>
-                            <label>Alergias</label>
-                            <input
-                                type="text"
-                                value={form.paciente.alergias}
-                                onChange={onChange('paciente', 'alergias')}
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <h2>Información de Empleado</h2>
-                            <label>Cargo</label>
-                            <input
-                                type="text"
-                                value={form.empleado.cargo}
-                                onChange={onChange('empleado', 'cargo')}
-                                required
-                            />
-                            <label>Especialidad</label>
-                            <input
-                                type="text"
-                                value={form.empleado.especialidad}
-                                onChange={onChange('empleado', 'especialidad')}
-                                required
-                            />
-                        </>
-                    )}
-
-                    <button
-                        type="submit"
-                        className="submit-btn"
-                        disabled={loading}
-                    >
-                        {loading ? 'Registrando…' : 'Registrarse'}
-                    </button>
-                </form>
-
-                <p>
-                    ¿Ya tienes cuenta? <Link to="/">Iniciar Sesión</Link>
-                </p>
+                    <p className="bottom-link">
+                        ¿Ya tiene una cuenta? <Link to="/">Iniciar sesión</Link>
+                    </p>
+                </div>
             </div>
         </div>
     );

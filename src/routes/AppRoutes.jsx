@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Login } from "../pages/login";
+import { Login } from "../pages/Login";
 //import { Page404 } from "../pages/Page404";
 import { PrivateRoutes } from "./PrivateRoutes";
 // Rutas centrales por rol (redirige desde /inicio)
@@ -24,6 +24,10 @@ import { OdontogramaPacientePage } from "../pages/adm/paciente/odontograma/Odont
 import { DetalleDientePage } from "../pages/adm/paciente/odontograma/DetalleDientePage";
 import { RegistrarOdontogramaPage } from "../pages/adm/paciente/odontograma/RegistrarOdontogramaPage";
 import { ReservarCitaPage } from "../pages/paciente/cita/ReservarCitaPage";
+import { ServiciosPageAdm } from "../pages/adm/servicio/ServiciosPageAdm";
+import { EditarServicioPageAdm } from "../pages/adm/servicio/EditarServicioPageAdm";
+import { RegistrarServicioAdm } from "../pages/adm/servicio/RegistrarServicioAdm";
+
 
 export const AppRoutes = () => {
   return (
@@ -48,6 +52,9 @@ export const AppRoutes = () => {
         <Route path="/empleados" element={<EmpleadosPage />} />
         <Route path="/pacientes" element={<PacientesPage />} />
         <Route path="/turnos" element={<TurnosPage />} />
+        <Route path="/servicios" element={<ServiciosPageAdm />} />
+        <Route path="/servicios/nuevo" element={<RegistrarServicioAdm />} />
+        <Route path="/servicios/:id/editar" element={<EditarServicioPageAdm />} />
         <Route path="/pacientes/:idPaciente/historial/nuevo" element={<RegistrarHistorialClinicoPage />} />
         <Route
           path="/pacientes/:idPaciente/historial"
@@ -77,12 +84,7 @@ export const AppRoutes = () => {
           path="/pacientes/:idPaciente/historial/:idHistorial/odontograma/nuevo"
           element={<RegistrarOdontogramaPage />}
         />
-        {/* <Route path="/pacientes/:idPaciente/historial" element={<HistorialClinicoPage />} /> */}
-        {/*  rutas hijas del admin */}
-        {/* <Route path="/empleados" element={<EmpleadosList />} />
-        <Route path="/turnos" element={<TurnosList />} />
-        <Route path="/pacientes" element={<PacientesList />} />
-        <Route path="/servicios" element={<ServiciosList />} /> */}
+
       </Route>
 
       <Route element={<PrivateRoutes roles={["ODONTOLOGO"]} />}>
@@ -96,18 +98,6 @@ export const AppRoutes = () => {
          <Route path="/reservar-cita" element={<ReservarCitaPage />} />
       </Route>
 
-
-      {/* <Route element={<PrivateRoutes roles={["ASISTENTE"]} />}>
-        <Route path="/inicio-asistente" element={<InicioAsistente />} />
-      </Route>
-
-
-
-      <Route element={<PrivateRoutes roles={["AUXILIAR"]} />}>
-        <Route path="/inicio-auxiliar" element={<InicioAuxiliar />} />
-      </Route>
-
-      <Route path="*" element={<Page404 />} /> */}
     </Routes>
   );
 };

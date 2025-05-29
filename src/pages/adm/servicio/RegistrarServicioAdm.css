@@ -1,0 +1,49 @@
+.registrar-servicio-container {
+  max-width: 480px;
+  margin: 32px auto;
+  background: #fff;
+  padding: 32px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px #b7c4e65b;
+}
+.registrar-servicio-form label {
+  display: block;
+  margin-bottom: 1.2rem;
+  color: #1976d2;
+  font-weight: 500;
+}
+.registrar-servicio-form input[type="text"],
+.registrar-servicio-form input[type="number"] {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d3d9e2;
+  border-radius: 7px;
+  font-size: 1rem;
+  margin-top: 5px;
+}
+.submit-btn {
+  background: #1565c0;
+  color: #fff;
+  padding: 0.65rem 2rem;
+  border: none;
+  border-radius: 7px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.cancel-btn {
+  background: #fff;
+  border: 1px solid #1565c0;
+  color: #1565c0;
+  padding: 0.65rem 2rem;
+  border-radius: 7px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.error {
+  background: #ffe9e9;
+  color: #b00020;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}

@@ -27,7 +27,8 @@ import { ReservarCitaPage } from "../pages/paciente/cita/ReservarCitaPage";
 import { ServiciosPageAdm } from "../pages/adm/servicio/ServiciosPageAdm";
 import { EditarServicioPageAdm } from "../pages/adm/servicio/EditarServicioPageAdm";
 import { RegistrarServicioAdm } from "../pages/adm/servicio/RegistrarServicioAdm";
-
+import { PagosPage } from "../pages/adm/pago/pagosPage";
+import { RecibosPage } from "../pages/adm/recibo/recibosPage";
 
 export const AppRoutes = () => {
   return (
@@ -85,6 +86,16 @@ export const AppRoutes = () => {
           element={<RegistrarOdontogramaPage />}
         />
 
+        <Route
+          path="/pagos"
+          element={<PagosPage />}
+        />
+
+        <Route
+          path="/recibos"
+          element={<RecibosPage />}
+        />
+
       </Route>
 
       <Route element={<PrivateRoutes roles={["ODONTOLOGO"]} />}>
@@ -95,7 +106,7 @@ export const AppRoutes = () => {
 
       <Route element={<PrivateRoutes roles={["PACIENTE"]} />}>
         <Route path="/inicio-paciente" element={<InicioPaciente />} />
-         <Route path="/reservar-cita" element={<ReservarCitaPage />} />
+        <Route path="/reservar-cita" element={<ReservarCitaPage />} />
       </Route>
 
     </Routes>

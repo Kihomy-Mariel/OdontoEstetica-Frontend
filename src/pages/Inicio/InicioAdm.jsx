@@ -67,6 +67,15 @@ export const InicioAdm = () => {
                         <Users size={16} /> Servicios
                     </button>
 
+                    <button onClick={() => navigate("/pagos")}>
+                        <Users size={16} /> Pagos
+                    </button>
+
+                    <button onClick={() => navigate("/recibos")}>
+                        <Users size={16} /> Recibos
+                    </button>
+
+
                 </nav>
             </aside>
 

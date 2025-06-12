@@ -1,0 +1,39 @@
+.cita-page-adm-container {
+  padding: 20px;
+}
+
+.tabla-citas {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-citas th,
+.tabla-citas td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla-citas th {
+  background-color: #f5f5f5;
+}
+
+.btn-editar,
+.btn-eliminar {
+  margin: 0 5px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.btn-editar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-eliminar {
+  background-color: #f44336;
+  color: white;
+}

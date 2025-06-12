@@ -24,6 +24,9 @@ import { OdontogramaPacientePage } from "../pages/adm/paciente/odontograma/Odont
 import { DetalleDientePage } from "../pages/adm/paciente/odontograma/DetalleDientePage";
 import { RegistrarOdontogramaPage } from "../pages/adm/paciente/odontograma/RegistrarOdontogramaPage";
 import { ReservarCitaPage } from "../pages/paciente/cita/ReservarCitaPage";
+import { CitaPageAdm } from "../pages/adm/cita/CitaPageAdm";
+
+
 
 export const AppRoutes = () => {
   return (
@@ -66,6 +69,7 @@ export const AppRoutes = () => {
           path="/pacientes/:idPaciente/historial/:idHistorial/odontograma/:idOdontograma/detalle/:idDetalle"
           element={<DetalleOdontogramaPage />}
         />
+        <Route path="/citas" element={<CitaPageAdm />} />
 
         {/* Ver un diente concreto */}
         <Route

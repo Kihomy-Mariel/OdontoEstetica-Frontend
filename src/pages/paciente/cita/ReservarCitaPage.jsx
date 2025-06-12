@@ -25,7 +25,7 @@ export const ReservarCitaPage = () => {
     e.preventDefault();
     try {
       await createCita(form);
-      alert("✅ Cita solicitada correctamente");
+      alert("Cita solicitada correctamente");
       navigate("/inicio-paciente");
     } catch {
       alert("❌ Error al solicitar cita");

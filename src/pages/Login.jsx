@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginThunk } from "../store/slices/usuario.slice";
+import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Login.css";
 
 export const Login = () => {
@@ -30,10 +31,9 @@ export const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-
         {/* Cabecera */}
         <div className="card-header">
-          <img src="public/logo.png" alt="Odonto Estética" />
+          <img src="public/Logo.png" alt="Odonto Estética" />
           <h1>Odonto Estética</h1>
           <p>Iniciar sesión en el sistema</p>
         </div>
@@ -41,44 +41,57 @@ export const Login = () => {
         {/* Cuerpo */}
         <div className="card-body">
           {error && <div className="error">{error}</div>}
+          <form onSubmit={handleSubmit} autoComplete="off">
 
-          <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                id="username"
-                type="text"
-                placeholder="ejemplo_usuario"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
+              <label htmlFor="username" className="input-label">Nombre de usuario</label>
+              <div className="input-icon-group">
+                <FaUser className="input-icon" />
+                <input
+                  id="username"
+                  type="text"
+                  placeholder="ejemplo_usuario"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  autoFocus
+                  required
+                />
+              </div>
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Contraseña</label>
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Ingrese su contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <label htmlFor="password" className="input-label">Contraseña</label>
+              <div className="input-icon-group">
+                <FaLock className="input-icon" />
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Ingrese su contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  className="eye-btn"
+                  onClick={() => setShow((v) => !v)}
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
 
             <div className="password-row">
-              <div>
+              <label className="showpass-checkbox">
                 <input
                   type="checkbox"
-                  id="show"
                   checked={showPassword}
-                  onChange={() => setShow(v => !v)}
+                  onChange={() => setShow((v) => !v)}
                 />
-                <label htmlFor="show" style={{ marginLeft: 4, fontSize: "0.85rem" }}>
-                  Mostrar contraseña
-                </label>
-              </div>
+                <span>Mostrar contraseña</span>
+              </label>
               <a href="#">¿Olvidó su contraseña?</a>
             </div>
 
@@ -97,7 +110,6 @@ export const Login = () => {
               Registrarse
             </Link>
           </p>
-
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
-// src/store/slices/usuario.slice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { login, registerCompleto } from "../../services/auth.service";
+import { login, registerCompletoUsuario } from "../../services/auth.service";
 
+// Estado inicial (intenta leer desde localStorage)
 const initialState = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : {
@@ -13,22 +13,22 @@ const initialState = localStorage.getItem("userInfo")
       rol: "",
       id: "",
       username: "",
-      // Estados para registro
       loading: false,
       error: null,
+      success: false,  // <- puedes usar para feedback de éxito
     };
 
 const usuarioSlice = createSlice({
   name: "usuario",
   initialState,
   reducers: {
-    // Almacena los datos tras un login exitoso
+    // Almacena los datos tras login
     loginSlice: (state, action) => {
       const data = {
-        nombre: action.payload.persona.nombres,
-        apellidoPaterno: action.payload.persona.apellidoPaterno,
-        apellidoMaterno: action.payload.persona.apellidoMaterno,
-        email: action.payload.persona.email,
+        nombre: action.payload.persona?.nombres || "",
+        apellidoPaterno: action.payload.persona?.apellidoPaterno || "",
+        apellidoMaterno: action.payload.persona?.apellidoMaterno || "",
+        email: action.payload.persona?.email || "",
         token: action.payload.token,
         rol: action.payload.rol
           ?.toUpperCase()
@@ -52,14 +52,20 @@ const usuarioSlice = createSlice({
     registerStart: (state) => {
       state.loading = true;
       state.error = null;
+      state.success = false;
     },
     registerSuccess: (state) => {
       state.loading = false;
+      state.success = true;
     },
     registerFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+      state.success = false;
     },
+    resetSuccess: (state) => {
+      state.success = false;
+    }
   },
 });
 
@@ -69,11 +75,12 @@ export const {
   registerStart,
   registerSuccess,
   registerFailure,
+  resetSuccess,
 } = usuarioSlice.actions;
 
 export default usuarioSlice.reducer;
 
-// Thunk para login (ya lo tenías)
+// Thunk para login
 export const loginThunk = (data, navigate) => async (dispatch) => {
   try {
     const response = await login(data);
@@ -84,15 +91,16 @@ export const loginThunk = (data, navigate) => async (dispatch) => {
   }
 };
 
-// Nuevo thunk para registro
+// Thunk para registro de paciente
 export const registerCompletoThunk = (payload, navigate) => async (dispatch) => {
   dispatch(registerStart());
   try {
-    await registerCompleto(payload);
+    await registerCompletoUsuario(payload);
     dispatch(registerSuccess());
-    navigate('/');  
+    // Puedes redirigir a login y mostrar un mensaje
+    navigate('/', { state: { registered: true } });  
   } catch (err) {
-    const msg = err.response?.data?.message || 'Error al registrar completo';
+    const msg = err.response?.data?.message || 'Error al registrar paciente';
     dispatch(registerFailure(msg));
   }
 };

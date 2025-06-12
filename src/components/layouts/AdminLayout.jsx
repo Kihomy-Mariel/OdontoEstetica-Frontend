@@ -30,8 +30,8 @@ export const AdminLayout = ({ children, setVista }) => {
                     <LogOut size={16} /> Cerrar Sesión
                 </button>
                 <nav className="nav-menu">
-                    <button onClick={() => setVista("dashboard")}>
-                        <LayoutDashboard size={16} /> Dashboard
+                    <button onClick={() => navigate("/inicio-adm")}>
+                        <Users size={16} /> Dashboard
                     </button>
                     <button onClick={() => navigate("/empleados")}>
                         <Users size={16} /> Empleados
@@ -52,6 +52,10 @@ export const AdminLayout = ({ children, setVista }) => {
 
                     <button onClick={() => navigate("/recibos")}>
                         <Users size={16} /> Recibos
+                    </button>
+
+                    <button onClick={() => navigate("/citas")}>
+                        <Users size={16} /> Citas
                     </button>
                 </nav>
             </aside>

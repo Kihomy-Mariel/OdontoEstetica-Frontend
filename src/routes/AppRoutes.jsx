@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Login } from "../pages/Login";
-//import { Page404 } from "../pages/Page404";
 import { PrivateRoutes } from "./PrivateRoutes";
 // Rutas centrales por rol (redirige desde /inicio)
 import { Inicio } from "../pages/Inicio/Inicio";
@@ -15,7 +14,6 @@ import { AsignarTurnoPage } from "../pages/adm/asistencia/AsignarTurnosPage";
 import { EmpleadosPage } from "../pages/adm/empleado/EmpleadosPage";
 import { PacientesPage } from "../pages/adm/paciente/PacientesPage";
 import { TurnosPage } from "../pages/adm/turno/TurnosPage";
-//import { HistorialClinicoPage } from "../pages/adm/historial/HistorialClinicoPage";
 import { RegistrarHistorialClinicoPage } from "../pages/adm/paciente/historial-clinico/RegistrarHistorialClinico";
 import { HistoriasClinicoPage } from "../pages/adm/paciente/historial-clinico/HistoriasClinicoPage";
 import { HistorialClinicoPacientePage } from "../pages/adm/paciente/historial-clinico/HistorialClinicoPacientePage";
@@ -29,6 +27,8 @@ import { EditarServicioPageAdm } from "../pages/adm/servicio/EditarServicioPageA
 import { RegistrarServicioAdm } from "../pages/adm/servicio/RegistrarServicioAdm";
 import { PagosPage } from "../pages/adm/pago/pagosPage";
 import { RecibosPage } from "../pages/adm/recibo/recibosPage";
+import {CitasPageAdm } from "../pages/adm/cita/CitasPageAdm";
+
 
 export const AppRoutes = () => {
   return (
@@ -95,6 +95,13 @@ export const AppRoutes = () => {
           path="/recibos"
           element={<RecibosPage />}
         />
+
+        
+        <Route
+          path="/citas"
+          element={<CitasPageAdm />}
+        />
+
 
       </Route>
 

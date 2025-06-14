@@ -9,3 +9,19 @@ export const getOneEmpleado = async (id) => {
   const { data } = await axiosConsultorio.get(`/empleados/${id}`);
   return data;
 };
+
+export const updateEmpleado = async (idEmpleado, updateData) => {
+  const { data } = await axiosConsultorio.patch(`/empleados/${idEmpleado}`, updateData);
+  return data;
+};
+
+export const deleteEmpleado = async (idEmpleado) => {
+  const { data } = await axiosConsultorio.delete(`/empleados/${idEmpleado}`);
+  return data;
+};
+
+// Opcional, para registrar empleado
+export const registerEmpleado = async (registerData) => {
+  const { data } = await axiosConsultorio.post(`/empleados/register-empleado`, registerData);
+  return data;
+};

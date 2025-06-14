@@ -27,8 +27,9 @@ import { EditarServicioPageAdm } from "../pages/adm/servicio/EditarServicioPageA
 import { RegistrarServicioAdm } from "../pages/adm/servicio/RegistrarServicioAdm";
 import { PagosPage } from "../pages/adm/pago/pagosPage";
 import { RecibosPage } from "../pages/adm/recibo/recibosPage";
-import {CitasPageAdm } from "../pages/adm/cita/CitasPageAdm";
-
+import { CitasPageAdm } from "../pages/adm/cita/CitasPageAdm";
+import { ProductoPageAdm } from "../pages/adm/producto/ProductoPageAdm";
+import { RegistrarPacientePage } from "../pages/adm/paciente/odontograma/RegistrarPacientePage";
 
 export const AppRoutes = () => {
   return (
@@ -96,12 +97,21 @@ export const AppRoutes = () => {
           element={<RecibosPage />}
         />
 
-        
+
         <Route
           path="/citas"
           element={<CitasPageAdm />}
         />
 
+        <Route
+          path="/productos"
+          element={<ProductoPageAdm />}
+        />
+
+        <Route
+          path="/registrar-pacientes"
+          element={<RegistrarPacientePage />}
+        />
 
       </Route>
 

@@ -36,7 +36,7 @@ import { EditarEmpleadoPage } from "../pages/adm/empleado/EditarEmpleadoPage";
 import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProductoPageAdm";
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
-
+import { CompraPage } from "../pages/adm/compra/CompraPage";
 
 export const AppRoutes = () => {
   return (
@@ -147,9 +147,17 @@ export const AppRoutes = () => {
         <Route path="/registrar-empleado" element={<RegistrarEmpleadoPage />} />
         <Route
           path="/empleados/editar/:idEmpleado"
-          element={<EditarEmpleadoPage />}
+          element={<EditarEmpleadoPage />} 
         />
+
+        <Route
+          path="/compras"
+          element={<CompraPage />} 
+        />
+
       </Route>
+
+      
 
       <Route element={<PrivateRoutes roles={["ODONTOLOGO"]} />}>
         <Route path="/InicioOdontologo" element={<InicioOdontologo />} />

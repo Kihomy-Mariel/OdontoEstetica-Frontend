@@ -1,9 +1,7 @@
-// src/pages/Servicios/EditarServicioPageAdm.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AdminLayout } from "../../../components/layouts/AdminLayout";
 import { getServicioById, updateServicio } from "../../../services/servicio.service";
-import "./EditarServicioPageAdm.css";
 
 export const EditarServicioPageAdm = () => {
   const { id } = useParams();
@@ -25,44 +23,41 @@ export const EditarServicioPageAdm = () => {
       });
   }, [id]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setServicio(s => ({
+    setServicio((s) => ({
       ...s,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-const handleSubmit = async e => {
-  e.preventDefault();
-  setSaving(true);
-  setError(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setError(null);
 
-  // SOLO los campos que quieres actualizar
-  const payload = {
-    nombreServicio: servicio.nombreServicio,
-    descripcion: servicio.descripcion,
-    precio: Number(servicio.precio),
-    duracionEstimada: servicio.duracionEstimada,
-    // ¡No incluyas habilitado aquí!
+    const payload = {
+      nombreServicio: servicio.nombreServicio,
+      descripcion: servicio.descripcion,
+      precio: Number(servicio.precio),
+      duracionEstimada: servicio.duracionEstimada,
+    };
+
+    try {
+      await updateServicio(id, payload);
+      navigate("/servicios");
+    } catch (err) {
+      setError("Error al guardar cambios.");
+      console.error("ERROR BACKEND:", err);
+    } finally {
+      setSaving(false);
+    }
   };
-
-  try {
-    await updateServicio(id, payload);
-    navigate("/servicios");
-  } catch (err) {
-    setError("Error al guardar cambios.");
-    console.error("ERROR BACKEND:", err);
-  } finally {
-    setSaving(false);
-  }
-};
-
 
   if (loading) {
     return (
       <AdminLayout>
-        <div style={{ padding: 30, textAlign: "center" }}>Cargando...</div>
+        <div className="p-10 text-center text-blue-700 font-medium">Cargando...</div>
       </AdminLayout>
     );
   }
@@ -70,63 +65,101 @@ const handleSubmit = async e => {
   if (!servicio) {
     return (
       <AdminLayout>
-        <div style={{ padding: 30, color: "red" }}>No se encontró el servicio</div>
+        <div className="p-10 text-center text-red-600 font-semibold">
+          No se encontró el servicio
+        </div>
       </AdminLayout>
     );
   }
 
   return (
     <AdminLayout>
-      <div className="editar-servicio-container">
-        <h2>Editar Servicio</h2>
-        {error && <div className="error">{error}</div>}
-        <form className="editar-servicio-form" onSubmit={handleSubmit}>
-          <label>
-            Nombre del servicio:
+      <div className="max-w-xl mx-auto mt-10 bg-white p-8 rounded-2xl shadow-xl">
+        <h2 className="text-2xl font-bold text-blue-700 mb-2 text-center">
+          Editar Servicio
+        </h2>
+        <p className="text-sm text-gray-500 mb-6 text-center">
+          Realice los cambios necesarios y guarde para actualizar el servicio
+        </p>
+
+        {error && (
+          <div className="bg-red-100 text-red-700 text-center p-3 rounded mb-4 text-sm font-medium">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-blue-600 font-medium mb-1">
+              Nombre del servicio
+            </label>
             <input
               name="nombreServicio"
               value={servicio.nombreServicio}
               onChange={handleChange}
               required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Ej: Limpieza dental"
             />
-          </label>
-          <label>
-            Descripción:
+          </div>
+
+          <div>
+            <label className="block text-blue-600 font-medium mb-1">
+              Descripción
+            </label>
             <input
               name="descripcion"
               value={servicio.descripcion}
               onChange={handleChange}
               required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Ej: Eliminación de placa"
             />
-          </label>
-          <label>
-            Duración estimada:
+          </div>
+
+          <div>
+            <label className="block text-blue-600 font-medium mb-1">
+              Duración estimada
+            </label>
             <input
               name="duracionEstimada"
               value={servicio.duracionEstimada}
               onChange={handleChange}
               required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Ej: 45 minutos"
             />
-          </label>
-          <label>
-            Precio:
+          </div>
+
+          <div>
+            <label className="block text-blue-600 font-medium mb-1">Precio (BS.)</label>
             <input
               name="precio"
-              value={servicio.precio}
               type="number"
               step="0.01"
               min="0"
+              value={servicio.precio}
               onChange={handleChange}
               required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Ej: 50.00"
             />
-          </label>
+          </div>
 
-          <div style={{marginTop: 18}}>
-            <button type="submit" className="submit-btn" disabled={saving}>
-              {saving ? "Guardando..." : "Guardar Cambios"}
-            </button>
-            <button type="button" className="cancel-btn" onClick={() => navigate("/servicios")} style={{marginLeft: 12}}>
+          <div className="flex justify-end space-x-4 pt-4">
+            <button
+              type="button"
+              onClick={() => navigate("/servicios")}
+              className="px-5 py-2 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-50 transition"
+            >
               Cancelar
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-60"
+            >
+              {saving ? "Guardando..." : "Guardar Cambios"}
             </button>
           </div>
         </form>

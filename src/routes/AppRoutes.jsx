@@ -33,6 +33,7 @@ import { RegistrarPacientePage } from "../pages/adm/paciente/RegistrarPacientePa
 import { ActualizarPacientePage } from "../pages/adm/paciente/ActualizarPacientePage";
 import { RegistrarEmpleadoPage } from "../pages/adm/empleado/RegistrarEmpleadoPage";
 import { EditarEmpleadoPage } from "../pages/adm/empleado/EditarEmpleadoPage";
+import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProductoPageAdm";
 
 export const AppRoutes = () => {
   return (
@@ -110,6 +111,10 @@ export const AppRoutes = () => {
           path="/productos"
           element={<ProductoPageAdm />}
         />
+        <Route path="/productos/nuevo" 
+        element={<RegistrarProductoPageAdm />} 
+        />
+
 
         <Route
           path="/registrar-pacientes"

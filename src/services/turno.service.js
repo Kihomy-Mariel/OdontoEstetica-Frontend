@@ -12,6 +12,7 @@ export const getOneTurno = async (idTurno) => {
   return data;
 };
 
+
 /** POST: crear un nuevo turno */
 export const createTurno = async (payload) => {
   const { data } = await axiosConsultorio.post("/turno", payload);
@@ -24,8 +25,8 @@ export const updateTurno = async (idTurno, payload) => {
   return data;
 };
 
-/** DELETE: deshabilitar un turno (borrado lógico) */
 export const deleteTurno = async (idTurno) => {
   const { data } = await axiosConsultorio.delete(`/turno/${idTurno}`);
   return data;
 };
+

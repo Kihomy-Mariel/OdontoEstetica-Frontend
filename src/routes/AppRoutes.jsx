@@ -33,6 +33,9 @@ import { RegistrarPacientePage } from "../pages/adm/paciente/RegistrarPacientePa
 import { ActualizarPacientePage } from "../pages/adm/paciente/ActualizarPacientePage";
 import { RegistrarEmpleadoPage } from "../pages/adm/empleado/RegistrarEmpleadoPage";
 import { EditarEmpleadoPage } from "../pages/adm/empleado/EditarEmpleadoPage";
+import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
+import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
+
 
 export const AppRoutes = () => {
   return (
@@ -44,23 +47,39 @@ export const AppRoutes = () => {
       <Route
         path="/inicio"
         element={
-          <PrivateRoutes roles={["ODONTOLOGO", "ASISTENTE", "PACIENTE", "AUXILIAR", "ADM"]}>
+          <PrivateRoutes
+            roles={["ODONTOLOGO", "ASISTENTE", "PACIENTE", "AUXILIAR", "ADM"]}
+          >
             <Inicio />
           </PrivateRoutes>
         }
       />
 
-
       <Route element={<PrivateRoutes roles={["ADM"]} />}>
         <Route path="/inicio-adm" element={<InicioAdm />} />
-        <Route path="/asistencia/asignarTurno/:idEmpleado" element={<AsignarTurnoPage />} />
+        <Route
+          path="/asistencia/asignarTurno/:idEmpleado"
+          element={<AsignarTurnoPage />}
+        />
         <Route path="/empleados" element={<EmpleadosPage />} />
         <Route path="/pacientes" element={<PacientesPage />} />
         <Route path="/turnos" element={<TurnosPage />} />
+        <Route path="/turno/nuevo" element={<RegistrarTurnoPage />} />
         <Route path="/servicios" element={<ServiciosPageAdm />} />
         <Route path="/servicios/nuevo" element={<RegistrarServicioAdm />} />
-        <Route path="/servicios/:id/editar" element={<EditarServicioPageAdm />} />
-        <Route path="/pacientes/:idPaciente/historial/nuevo" element={<RegistrarHistorialClinicoPage />} />
+        <Route
+          path="/servicios/:id/editar"
+          element={<EditarServicioPageAdm />}
+        />
+        <Route
+          path="/pacientes/:idPaciente/historial/nuevo"
+          element={<RegistrarHistorialClinicoPage />}
+        />
+
+        <Route
+          path="/turno/editar/:idTurno"
+          element={<ActualizarTurnoPage />}
+        />
         <Route
           path="/pacientes/:idPaciente/historial"
           element={<HistoriasClinicoPage />}
@@ -69,7 +88,6 @@ export const AppRoutes = () => {
           path="/pacientes/:idPaciente/historial/:idHistorial"
           element={<HistorialClinicoPacientePage />}
         />
-
         <Route
           path="/pacientes/:idPaciente/historial/:idHistorial/odontograma"
           element={<OdontogramaPacientePage />}
@@ -78,49 +96,32 @@ export const AppRoutes = () => {
           path="/pacientes/:idPaciente/historial/:idHistorial/odontograma/:idOdontograma/detalle/:idDetalle"
           element={<DetalleOdontogramaPage />}
         />
-
         {/* Ver un diente concreto */}
         <Route
           path="/pacientes/:idPaciente/historial/:idHistorial/odontograma/:idOdontograma/detalle/:idDetalle"
           element={<DetalleDientePage />}
         />
-
         <Route
           path="/pacientes/:idPaciente/historial/:idHistorial/odontograma/nuevo"
           element={<RegistrarOdontogramaPage />}
         />
-
-        <Route
-          path="/pagos"
-          element={<PagosPage />}
-        />
-
-        <Route
-          path="/recibos"
-          element={<RecibosPage />}
-        />
-
-
-        <Route
-          path="/citas"
-          element={<CitasPageAdm />}
-        />
-
-        <Route
-          path="/productos"
-          element={<ProductoPageAdm />}
-        />
-
+        <Route path="/pagos" element={<PagosPage />} />
+        <Route path="/recibos" element={<RecibosPage />} />
+        <Route path="/citas" element={<CitasPageAdm />} />
+        <Route path="/productos" element={<ProductoPageAdm />} />
         <Route
           path="/registrar-pacientes"
           element={<RegistrarPacientePage />}
         />
-
-        <Route path="/pacientes/:idPaciente/editar" element={<ActualizarPacientePage />} />
+        <Route
+          path="/pacientes/:idPaciente/editar"
+          element={<ActualizarPacientePage />}
+        />
         <Route path="/registrar-empleado" element={<RegistrarEmpleadoPage />} />
-        <Route path="/empleados/editar/:idEmpleado" element={<EditarEmpleadoPage />} />
-
-
+        <Route
+          path="/empleados/editar/:idEmpleado"
+          element={<EditarEmpleadoPage />}
+        />
       </Route>
 
       <Route element={<PrivateRoutes roles={["ODONTOLOGO"]} />}>
@@ -128,12 +129,10 @@ export const AppRoutes = () => {
         <Route path="/pacientes" element={<PacientesPage />} />
       </Route>
 
-
       <Route element={<PrivateRoutes roles={["PACIENTE"]} />}>
         <Route path="/inicio-paciente" element={<InicioPaciente />} />
         <Route path="/reservar-cita" element={<ReservarCitaPage />} />
       </Route>
-
     </Routes>
   );
 };

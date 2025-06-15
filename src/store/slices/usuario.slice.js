@@ -5,18 +5,22 @@ import { login, registerCompletoUsuario } from "../../services/auth.service";
 const initialState = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : {
-      nombre: "",
-      apellidoPaterno: "",
-      apellidoMaterno: "",
-      email: "",
-      token: "",
-      rol: "",
-      id: "",
-      username: "",
-      loading: false,
-      error: null,
-      success: false,  // <- puedes usar para feedback de éxito
-    };
+    nombre: "",
+    apellidoPaterno: "",
+    apellidoMaterno: "",
+    email: "",
+    token: "",
+    rol: "",
+    id: "",
+    username: "",
+    ci: "",
+    fechaNacimiento: "",
+    telefono: "",
+    fechaRegistro: "",
+    loading: false,
+    error: null,
+    success: false,  // <- puedes usar para feedback de éxito
+  };
 
 const usuarioSlice = createSlice({
   name: "usuario",
@@ -24,11 +28,16 @@ const usuarioSlice = createSlice({
   reducers: {
     // Almacena los datos tras login
     loginSlice: (state, action) => {
+      const persona = action.payload.persona || {};
       const data = {
-        nombre: action.payload.persona?.nombres || "",
-        apellidoPaterno: action.payload.persona?.apellidoPaterno || "",
-        apellidoMaterno: action.payload.persona?.apellidoMaterno || "",
-        email: action.payload.persona?.email || "",
+        nombre: persona.nombres || "",
+        apellidoPaterno: persona.apellidoPaterno || "",
+        apellidoMaterno: persona.apellidoMaterno || "",
+        email: persona.email || "",
+        ci: persona.ci || "",
+        fechaNacimiento: persona.fechaNacimiento || "",
+        telefono: persona.telefono || "",
+        fechaRegistro: persona.fechaRegistro || "",
         token: action.payload.token,
         rol: action.payload.rol
           ?.toUpperCase()
@@ -98,7 +107,7 @@ export const registerCompletoThunk = (payload, navigate) => async (dispatch) => 
     await registerCompletoUsuario(payload);
     dispatch(registerSuccess());
     // Puedes redirigir a login y mostrar un mensaje
-    navigate('/', { state: { registered: true } });  
+    navigate('/', { state: { registered: true } });
   } catch (err) {
     const msg = err.response?.data?.message || 'Error al registrar paciente';
     dispatch(registerFailure(msg));

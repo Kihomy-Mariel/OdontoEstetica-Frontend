@@ -1,7 +1,6 @@
 // src/services/auth.service.js
 import { axiosConsultorio } from '../utils/configAxios';
 
-// LOGIN (dejas igual, si el backend lo soporta así)
 export const login = async ({ username, password }) => {
   const { data } = await axiosConsultorio.post("/auth/login", { username, password });
   return {
@@ -17,15 +16,14 @@ export const login = async ({ username, password }) => {
       apellidoPaterno:  data.persona.apellidoPaterno,
       apellidoMaterno:  data.persona.apellidoMaterno,
       email:            data.persona.email,
+      ci:               data.persona.ci,               // <-- AGREGADO
+      telefono:         data.persona.telefono,         // <-- AGREGADO
+      fechaNacimiento:  data.persona.fechaNacimiento,  // <-- AGREGADO
+      fechaRegistro:    data.persona.fechaRegistro,    // <-- AGREGADO
     },
   };
 };
 
-/**
- * Registra un nuevo paciente en el backend.
- * Recibe un objeto con { username, password, habilitado, persona, paciente }
- * y devuelve la respuesta del endpoint POST /auth/register-paciente
- */
 export const registerCompletoUsuario = async (payload) => {
   const { data } = await axiosConsultorio.post('/auth/register-paciente', payload);
   return data;

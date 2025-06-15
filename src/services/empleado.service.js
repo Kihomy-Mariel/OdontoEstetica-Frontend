@@ -11,9 +11,9 @@ export const getOneEmpleado = async (id) => {
 };
 
 export const updateEmpleado = async (idEmpleado, updateData) => {
-  const { data } = await axiosConsultorio.patch(`/empleados/${idEmpleado}`, updateData);
-  return data;
+  return axiosConsultorio.patch(`/empleados/${idEmpleado}`, updateData);
 };
+
 
 export const deleteEmpleado = async (idEmpleado) => {
   const { data } = await axiosConsultorio.delete(`/empleados/${idEmpleado}`);

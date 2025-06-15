@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllPacientes } from "../../../services/paciente.service";
+import { getAllPacientes, deletePaciente } from "../../../services/paciente.service";
 import { AdminLayout } from "../../../components/layouts/AdminLayout";
-import { FileText, Eye, UserPlus } from "lucide-react";
+import { FileText, Eye, UserPlus, Pencil, Trash2 } from "lucide-react";
 
 export const PacientesPage = () => {
   const [pacientes, setPacientes] = useState([]);
@@ -17,11 +17,31 @@ export const PacientesPage = () => {
     fetchData();
   }, []);
 
-  const pacientesFiltrados = pacientes.filter(p => {
+  // Añade el numeral al filtro (idx+1)
+  const pacientesFiltrados = pacientes.filter((p, idx) => {
     const persona = p.persona || {};
-    const texto = `${persona.nombres} ${persona.apellidoPaterno} ${persona.apellidoMaterno} ${persona.ci} ${persona.telefono} ${persona.email} ${persona.fechaNacimiento} ${persona.fechaRegistro}`;
+    const numeral = (idx + 1).toString();
+     const texto = `
+    ${numeral} 
+    ${persona.nombres} 
+    ${persona.apellidoPaterno} 
+    ${persona.apellidoMaterno} 
+    ${persona.ci} 
+    ${persona.telefono} 
+    ${persona.email} 
+    ${persona.fechaNacimiento} 
+    ${persona.fechaRegistro} 
+    ${p.alergias || ""}
+  `;
     return texto.toLowerCase().includes(filtro.toLowerCase());
   });
+
+  const handleDelete = async (idPaciente) => {
+    if (window.confirm("¿Está seguro que desea eliminar este paciente?")) {
+      await deletePaciente(idPaciente);
+      setPacientes(prev => prev.filter(p => p.idPaciente !== idPaciente));
+    }
+  };
 
   return (
     <AdminLayout>
@@ -40,7 +60,7 @@ export const PacientesPage = () => {
         <div className="mb-5">
           <input
             type="text"
-            placeholder="Buscar por nombre, CI, correo, etc..."
+            placeholder="Buscar por nombre, CI, correo, alergias, etc..."
             className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 text-base shadow-sm"
             value={filtro}
             onChange={(e) => setFiltro(e.target.value)}
@@ -48,54 +68,72 @@ export const PacientesPage = () => {
         </div>
 
         <div className="overflow-x-auto bg-white rounded-2xl shadow-md">
-          <table className="min-w-[950px] w-full text-sm text-left">
+          <table className="min-w-full w-full text-sm text-left">
             <thead>
               <tr className="bg-blue-50 text-blue-900">
-                <th className="px-4 py-3 font-semibold">Nombres</th>
-                <th className="px-4 py-3 font-semibold">Ap. Paterno</th>
-                <th className="px-4 py-3 font-semibold">Ap. Materno</th>
-                <th className="px-4 py-3 font-semibold">CI</th>
-                <th className="px-4 py-3 font-semibold">Fecha Nac.</th>
-                <th className="px-4 py-3 font-semibold">Teléfono</th>
-                <th className="px-4 py-3 font-semibold">Email</th>
-                <th className="px-4 py-3 font-semibold">Registro</th>
-                <th className="px-4 py-3 font-semibold text-center">Acciones</th>
+                <th className="px-4 py-3 font-semibold text-center min-w-[40px]">#</th>
+                <th className="px-4 py-3 font-semibold text-center min-w-[120px]">Acciones</th>
+                <th className="px-4 py-3 font-semibold min-w-[140px] whitespace-normal break-words">Nombres</th>
+                <th className="px-4 py-3 font-semibold min-w-[140px] whitespace-normal break-words">Apellido Paterno</th>
+                <th className="px-4 py-3 font-semibold min-w-[140px] whitespace-normal break-words">Apellido Materno</th>
+                <th className="px-4 py-3 font-semibold min-w-[100px]">Carnet de Identidad</th>
+                <th className="px-4 py-3 font-semibold min-w-[120px]">Fecha de Nacimiento</th>
+                <th className="px-4 py-3 font-semibold min-w-[110px]">Teléfono</th>
+                <th className="px-4 py-3 font-semibold min-w-[180px] whitespace-normal break-words">Correo Electrónico</th>
+                <th className="px-4 py-3 font-semibold min-w-[160px] whitespace-normal break-words">Fecha de Registro</th>
+                <th className="px-4 py-3 font-semibold min-w-[140px] whitespace-normal break-words">Alergias</th>
               </tr>
             </thead>
             <tbody>
-              {pacientesFiltrados.map(p => (
+              {pacientesFiltrados.map((p, idx) => (
                 <tr key={p.idPaciente} className="hover:bg-blue-50 transition">
-                  <td className="px-4 py-2">{p.persona?.nombres}</td>
-                  <td className="px-4 py-2">{p.persona?.apellidoPaterno}</td>
-                  <td className="px-4 py-2">{p.persona?.apellidoMaterno}</td>
-                  <td className="px-4 py-2">{p.persona?.ci}</td>
-                  <td className="px-4 py-2">{p.persona?.fechaNacimiento}</td>
-                  <td className="px-4 py-2">{p.persona?.telefono}</td>
-                  <td className="px-4 py-2">{p.persona?.email}</td>
-                  <td className="px-4 py-2">{p.persona?.fechaRegistro?.slice(0, 10)}</td>
+                 <td className="px-4 py-3 text-center text-blue-500 font-semibold">{idx + 1}</td>
                   <td className="px-4 py-2">
                     <div className="flex gap-2 justify-center">
                       <button
                         title="Registrar historial clínico"
                         onClick={() => navigate(`/pacientes/${p.idPaciente}/historial/nuevo`)}
-                        className="p-2 rounded-lg hover:bg-blue-100 text-blue-600 hover:text-blue-800 transition"
+                        className="p-2 rounded-lg bg-sky-200 hover:bg-sky-400 text-sky-800 hover:text-white transition"
                       >
                         <FileText size={20} />
                       </button>
                       <button
                         title="Ver historiales clínicos"
                         onClick={() => navigate(`/pacientes/${p.idPaciente}/historial`)}
-                        className="p-2 rounded-lg hover:bg-blue-100 text-blue-600 hover:text-blue-800 transition"
+                        className="p-2 rounded-lg bg-sky-200 hover:bg-sky-400 text-sky-800 hover:text-white transition"
                       >
                         <Eye size={20} />
                       </button>
+                      <button
+                        title="Editar paciente"
+                        onClick={() => navigate(`/pacientes/${p.idPaciente}/editar`)}
+                        className="p-2 rounded-lg bg-blue-200 hover:bg-blue-400 text-blue-800 hover:text-white transition"
+                      >
+                        <Pencil size={20} />
+                      </button>
+                      <button
+                        title="Eliminar paciente"
+                        onClick={() => handleDelete(p.idPaciente)}
+                        className="p-2 rounded-lg bg-red-200 hover:bg-red-400 text-red-800 hover:text-white transition"
+                      >
+                        <Trash2 size={20} />
+                      </button>
                     </div>
                   </td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.persona?.nombres}</td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.persona?.apellidoPaterno}</td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.persona?.apellidoMaterno}</td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.persona?.ci}</td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.persona?.fechaNacimiento}</td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.persona?.telefono}</td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.persona?.email}</td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.persona?.fechaRegistro?.slice(0, 10)}</td>
+                  <td className="px-4 py-2 whitespace-normal break-words">{p.alergias || "—"}</td>
                 </tr>
               ))}
               {pacientesFiltrados.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="text-center py-6 text-gray-500">
+                  <td colSpan={11} className="text-center py-6 text-gray-500">
                     No se encontraron pacientes con ese criterio.
                   </td>
                 </tr>

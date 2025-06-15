@@ -29,7 +29,10 @@ import { PagosPage } from "../pages/adm/pago/pagosPage";
 import { RecibosPage } from "../pages/adm/recibo/recibosPage";
 import { CitasPageAdm } from "../pages/adm/cita/CitasPageAdm";
 import { ProductoPageAdm } from "../pages/adm/producto/ProductoPageAdm";
-import { RegistrarPacientePage } from "../pages/adm/paciente/odontograma/RegistrarPacientePage";
+import { RegistrarPacientePage } from "../pages/adm/paciente/RegistrarPacientePage";
+import { ActualizarPacientePage } from "../pages/adm/paciente/ActualizarPacientePage";
+import { RegistrarEmpleadoPage } from "../pages/adm/empleado/RegistrarEmpleadoPage";
+import { EditarEmpleadoPage } from "../pages/adm/empleado/EditarEmpleadoPage";
 
 export const AppRoutes = () => {
   return (
@@ -112,6 +115,11 @@ export const AppRoutes = () => {
           path="/registrar-pacientes"
           element={<RegistrarPacientePage />}
         />
+
+        <Route path="/pacientes/:idPaciente/editar" element={<ActualizarPacientePage />} />
+        <Route path="/registrar-empleado" element={<RegistrarEmpleadoPage />} />
+        <Route path="/empleados/editar/:idEmpleado" element={<EditarEmpleadoPage />} />
+
 
       </Route>
 

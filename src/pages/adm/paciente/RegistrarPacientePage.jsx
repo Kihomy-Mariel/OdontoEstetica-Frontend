@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerPaciente } from "../../../../services/paciente.service";
-import { registerCompletoUsuario } from "../../../../services/auth.service";
-import { AdminLayout } from "../../../../components/layouts/AdminLayout";
+import { registerPaciente } from "../../../services/paciente.service";
+import { registerCompletoUsuario } from "../../../services/auth.service";
+import { AdminLayout } from "../../../components/layouts/AdminLayout";
 import { UserPlus } from "lucide-react";
-import { ShowAlert } from "../../../../components/common/showAlerts/ShowAlert";
+import { ShowAlert } from "../../../components/common/showAlerts/ShowAlert";
 
 const initialForm = {
     username: "",

@@ -107,3 +107,26 @@ body {
 .register-text a:hover {
   text-decoration: underline;
 }
+
+ .input {
+   background-color: #eff6ff; /* Tailwind bg-blue-50 */
+   border: 1px solid #bfdbfe; /* Tailwind border-blue-200 */
+   border-radius: 0.5rem; /* Tailwind rounded-lg */
+   padding-left: 1rem; /* Tailwind px-4 */
+   padding-right: 1rem; /* Tailwind px-4 */
+   padding-top: 0.5rem; /* Tailwind py-2 */
+   padding-bottom: 0.5rem; /* Tailwind py-2 */
+   margin-bottom: 0.75rem; /* Tailwind mb-3 */
+   width: 100%; /* Tailwind w-full */
+   font-weight: 500; /* Tailwind font-medium */
+   color: #1e3a8a; /* Tailwind text-blue-900 */
+   transition: border-color 0.2s;
+   outline: none;
+ }
+ .input::placeholder {
+   color: #93c5fd; /* Tailwind placeholder-blue-300 */
+ }
+ .input:focus {
+   border-color: #60a5fa; /* Tailwind focus:border-blue-400 */
+   outline: none;
+ }

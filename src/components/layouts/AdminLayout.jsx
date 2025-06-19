@@ -26,6 +26,9 @@ const MENU = [
   { label: "Recibos", icon: FileText, path: "/recibos" },
   { label: "Citas", icon: CalendarDays, path: "/citas" },
   { label: "Inventario", icon: PackageSearch, path: "/productos" },
+  { label: "Proveedores", icon: PackageSearch, path: "/proveedores" },
+  { label: "Compras", icon: PackageSearch, path: "/compras" },
+
 ];
 
 export const AdminLayout = ({ children }) => {

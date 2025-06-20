@@ -26,14 +26,26 @@ export const RegistrarProveedorPage = () => {
     setLoading(true);
     setError("");
     try {
-      await registerProveedor(form);
+      // Convierte strings numéricos a números antes de enviar:
+      const cleanForm = {
+        ...form,
+        idProveedor: Number(form.idProveedor),
+        telefono: Number(form.telefono),
+      };
+      await registerProveedor(cleanForm);
       navigate("/proveedores");
     } catch (err) {
-      setError("Error al registrar proveedor. Verifique los datos.");
+      if (err.response) {
+        console.error("Detalles del error:", err.response.data);
+        setError("Error al registrar proveedor: " + (err.response.data.message?.join(", ") || ""));
+      } else {
+        setError("Error inesperado al registrar proveedor.");
+      }
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <AdminLayout>

@@ -6,7 +6,6 @@ import { registerProveedor } from "../../../services/proveedor.service";
 export const RegistrarProveedorPage = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    idProveedor: "",
     nombreCompleto: "",
     direccion: "",
     telefono: "",
@@ -29,7 +28,6 @@ export const RegistrarProveedorPage = () => {
       // Convierte strings numéricos a números antes de enviar:
       const cleanForm = {
         ...form,
-        idProveedor: Number(form.idProveedor),
         telefono: Number(form.telefono),
       };
       await registerProveedor(cleanForm);
@@ -61,19 +59,6 @@ export const RegistrarProveedorPage = () => {
           className="bg-white p-8 rounded-2xl shadow-lg border border-blue-100 space-y-6"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-blue-900 font-medium mb-1">
-                ID Proveedor
-              </label>
-              <input
-                type="number"
-                name="idProveedor"
-                value={form.idProveedor}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring focus:border-blue-500"
-                required
-              />
-            </div>
 
             <div>
               <label className="block text-blue-900 font-medium mb-1">
@@ -132,7 +117,15 @@ export const RegistrarProveedorPage = () => {
             />
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-4">
+            <button
+              type="button"
+              onClick={() => navigate("/proveedores")}
+              className="bg-gray-300 hover:bg-gray-400 text-blue-900 font-semibold px-6 py-2 rounded-xl shadow transition"
+            >
+              Cancelar
+            </button>
+
             <button
               type="submit"
               disabled={loading}

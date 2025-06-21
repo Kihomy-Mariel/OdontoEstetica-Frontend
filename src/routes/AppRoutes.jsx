@@ -134,11 +134,6 @@ export const AppRoutes = () => {
         element={<RegistrarProductoPageAdm />} 
         />
 
-
-        <Route path="/pagos" element={<PagosPage />} />
-        <Route path="/recibos" element={<RecibosPage />} />
-        <Route path="/citas" element={<CitasPageAdm />} />
-        <Route path="/productos" element={<ProductoPageAdm />} />
         <Route
           path="/registrar-pacientes"
           element={<RegistrarPacientePage />}
@@ -151,10 +146,6 @@ export const AppRoutes = () => {
         <Route path="/empleados/editar/:idEmpleado" element={<EditarEmpleadoPage />} />
         <Route path="/proveedores" element={<ProveedorPage />} />
         <Route path="/proveedores/registrar" element={<RegistrarProveedorPage />} />
-        <Route
-          path="/empleados/editar/:idEmpleado"
-          element={<EditarEmpleadoPage />} 
-        />
 
         <Route path="/empleados/:idEmpleado/servicios" element={<EmpleadoServicioPage />} />
 

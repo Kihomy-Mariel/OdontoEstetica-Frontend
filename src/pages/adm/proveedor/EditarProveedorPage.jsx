@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AdminLayout } from "../../../components/layouts/AdminLayout";
-import { getProveedorById, updateProveedor } from "../../../services/proveedor.service";
+import { getOneProveedor, updateProveedor } from "../../../services/proveedor.service";
 
 export const EditarProveedorPage = () => {
   const navigate = useNavigate();
@@ -18,9 +18,10 @@ export const EditarProveedorPage = () => {
   useEffect(() => {
     const fetchProveedor = async () => {
       try {
-        const data = await getProveedorById(id);
+        const data = await getOneProveedor(id);
         setForm(data);
       } catch (err) {
+        console.error("Error al obtener proveedor:", err);
         setError("Error al obtener proveedor.");
       }
     };
@@ -38,13 +39,18 @@ export const EditarProveedorPage = () => {
     setError("");
     try {
       const payload = {
-        ...form,
+        nombreCompleto: form.nombreCompleto,
+        direccion: form.direccion,
         telefono: Number(form.telefono),
+        email: form.email,
       };
+
       await updateProveedor(id, payload);
       navigate("/proveedores");
     } catch (err) {
-      setError("Error al actualizar proveedor.");
+      const backendMessage = err.response?.data?.message || err.message || "Error desconocido";
+      console.error("Error al actualizar proveedor:", backendMessage);
+      setError(`Error al actualizar proveedor: ${backendMessage}`);
     } finally {
       setLoading(false);
     }

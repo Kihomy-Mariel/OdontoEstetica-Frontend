@@ -36,10 +36,12 @@ import { EditarEmpleadoPage } from "../pages/adm/empleado/EditarEmpleadoPage";
 import { EmpleadoServicioPage } from "../pages/adm/empleado/EmpleadoServicioPage";
 import { ProveedorPage } from "../pages/adm/proveedor/ProveedorPage";
 import { RegistrarProveedorPage } from "../pages/adm/proveedor/RegistrarProveedorPage";
+import { EditarProveedorPage } from "../pages/adm/proveedor/EditarProveedorPage";
 import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProductoPageAdm";
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
 import { CompraPage } from "../pages/adm/compra/CompraPage";
+
 
 export const AppRoutes = () => {
   return (
@@ -146,6 +148,8 @@ export const AppRoutes = () => {
         <Route path="/empleados/editar/:idEmpleado" element={<EditarEmpleadoPage />} />
         <Route path="/proveedores" element={<ProveedorPage />} />
         <Route path="/proveedores/registrar" element={<RegistrarProveedorPage />} />
+        <Route path="/proveedores/editar/:id" element={<EditarProveedorPage />} />
+
 
         <Route path="/empleados/:idEmpleado/servicios" element={<EmpleadoServicioPage />} />
 

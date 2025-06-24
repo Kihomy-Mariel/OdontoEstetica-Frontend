@@ -32,6 +32,7 @@ import { EditarEmpleadoPage } from "../pages/adm/empleado/EditarEmpleadoPage";
 import { EmpleadoServicioPage } from "../pages/adm/empleado/EmpleadoServicioPage";
 import { ProveedorPage } from "../pages/adm/proveedor/ProveedorPage";
 import { RegistrarProveedorPage } from "../pages/adm/proveedor/RegistrarProveedorPage";
+import { EditarProveedorPage } from "../pages/adm/proveedor/EditarProveedorPage";
 import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProductoPageAdm";
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
@@ -41,6 +42,7 @@ import { RegistrarCitaPageAdm } from "../pages/adm/cita/RegistrarCitaPageAdm";
 import { RegistrarPagoPageAdm } from "../pages/adm/pago/RegistrarPagoPageAdm";
 import { VerPagoPageAdm } from "../pages/adm/pago/VerPagoPageAdm";
 import { VerReciboPage } from "../pages/adm/recibo/VerReciboPage";
+
 
 
 export const AppRoutes = () => {
@@ -126,9 +128,11 @@ export const AppRoutes = () => {
         />
 
 
+
         <Route path="/pagos" element={<PagosPageAdm />} />
         <Route path="/citas" element={<CitasPageAdm />} />
         <Route path="/productos" element={<ProductoPageAdm />} />
+
         <Route
           path="/registrar-pacientes"
           element={<RegistrarPacientePage />}
@@ -141,10 +145,15 @@ export const AppRoutes = () => {
         <Route path="/empleados/editar/:idEmpleado" element={<EditarEmpleadoPage />} />
         <Route path="/proveedores" element={<ProveedorPage />} />
         <Route path="/proveedores/registrar" element={<RegistrarProveedorPage />} />
+
+        <Route path="/proveedores/editar/:id" element={<EditarProveedorPage />} />
+
+
         <Route
           path="/empleados/editar/:idEmpleado"
           element={<EditarEmpleadoPage />}
         />
+
 
         <Route path="/empleados/:idEmpleado/servicios" element={<EmpleadoServicioPage />} />
 

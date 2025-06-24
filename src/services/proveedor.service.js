@@ -24,8 +24,8 @@ export const updateProveedor = async (idProveedor, updateData) => {
   return data;
 };
 
-// Eliminar un proveedor
+// Eliminar un proveedor (borrado lógico)
 export const deleteProveedor = async (idProveedor) => {
-  const { data } = await axiosConsultorio.delete(`/proveedor/${idProveedor}`);
+  const { data } = await axiosConsultorio.put(`/proveedor/${idProveedor}`, { habilitado: 0 });
   return data;
 };

@@ -2,13 +2,10 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Login } from "../pages/Login";
 import { PrivateRoutes } from "./PrivateRoutes";
-// Rutas centrales por rol (redirige desde /inicio)
 import { Inicio } from "../pages/Inicio/Inicio";
 import { InicioOdontologo } from "../pages/Inicio/InicioOdontologo";
 import { InicioPaciente } from "../pages/Inicio/InicioPaciente";
 import { Register } from "../pages/Register";
-//import { InicioAsistente } from "../pages/asistente/InicioAsistente";
-//import { InicioAuxiliar } from "../pages/auxiliar/InicioAuxiliar";
 import { InicioAdm } from "../pages/Inicio/InicioAdm";
 import { AsignarTurnoPage } from "../pages/adm/asistencia/AsignarTurnosPage";
 import { EmpleadosPage } from "../pages/adm/empleado/EmpleadosPage";
@@ -25,8 +22,7 @@ import { ReservarCitaPage } from "../pages/paciente/cita/ReservarCitaPage";
 import { ServiciosPageAdm } from "../pages/adm/servicio/ServiciosPageAdm";
 import { EditarServicioPageAdm } from "../pages/adm/servicio/EditarServicioPageAdm";
 import { RegistrarServicioAdm } from "../pages/adm/servicio/RegistrarServicioAdm";
-import { PagosPage } from "../pages/adm/pago/pagosPage";
-import { RecibosPage } from "../pages/adm/recibo/recibosPage";
+import { PagosPageAdm } from "../pages/adm/pago/PagosPageAdm";
 import { CitasPageAdm } from "../pages/adm/cita/CitasPageAdm";
 import { ProductoPageAdm } from "../pages/adm/producto/ProductoPageAdm";
 import { RegistrarPacientePage } from "../pages/adm/paciente/RegistrarPacientePage";
@@ -41,6 +37,12 @@ import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProduct
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
 import { CompraPage } from "../pages/adm/compra/CompraPage";
+import { RegistrarEmpleadoServicioPage } from "../pages/adm/empleado/RegistrarEmpleadoServicio";
+import { RegistrarCitaPageAdm } from "../pages/adm/cita/RegistrarCitaPageAdm";
+import { RegistrarPagoPageAdm } from "../pages/adm/pago/RegistrarPagoPageAdm";
+import { VerPagoPageAdm } from "../pages/adm/pago/VerPagoPageAdm";
+import { VerReciboPage } from "../pages/adm/recibo/VerReciboPage";
+
 
 
 export const AppRoutes = () => {
@@ -113,17 +115,6 @@ export const AppRoutes = () => {
         />
 
         <Route
-          path="/pagos"
-          element={<PagosPage />}
-        />
-
-        <Route
-          path="/recibos"
-          element={<RecibosPage />}
-        />
-
-
-        <Route
           path="/citas"
           element={<CitasPageAdm />}
         />
@@ -132,9 +123,15 @@ export const AppRoutes = () => {
           path="/productos"
           element={<ProductoPageAdm />}
         />
-        <Route path="/productos/nuevo" 
-        element={<RegistrarProductoPageAdm />} 
+        <Route path="/productos/nuevo"
+          element={<RegistrarProductoPageAdm />}
         />
+
+
+
+        <Route path="/pagos" element={<PagosPageAdm />} />
+        <Route path="/citas" element={<CitasPageAdm />} />
+        <Route path="/productos" element={<ProductoPageAdm />} />
 
         <Route
           path="/registrar-pacientes"
@@ -148,19 +145,52 @@ export const AppRoutes = () => {
         <Route path="/empleados/editar/:idEmpleado" element={<EditarEmpleadoPage />} />
         <Route path="/proveedores" element={<ProveedorPage />} />
         <Route path="/proveedores/registrar" element={<RegistrarProveedorPage />} />
+
         <Route path="/proveedores/editar/:id" element={<EditarProveedorPage />} />
+
+
+        <Route
+          path="/empleados/editar/:idEmpleado"
+          element={<EditarEmpleadoPage />}
+        />
 
 
         <Route path="/empleados/:idEmpleado/servicios" element={<EmpleadoServicioPage />} />
 
         <Route
           path="/compras"
-          element={<CompraPage />} 
+          element={<CompraPage />}
+        />
+        <Route
+          path="/empleados/:idEmpleado/registrar-servicio"
+          element={<RegistrarEmpleadoServicioPage />}
+        />
+
+        <Route
+          path="/cita-nueva"
+          element={<RegistrarCitaPageAdm />}
+        />
+
+
+
+        <Route
+          path="/registrar-pago"
+          element={<RegistrarPagoPageAdm />}
+        />
+
+        <Route
+          path="/ver-pago/:idPago"
+          element={<VerPagoPageAdm />}
+        />
+
+        <Route
+          path="/ver-recibo/:idRecibo"
+          element={<VerReciboPage/>}
         />
 
       </Route>
 
-      
+
 
       <Route element={<PrivateRoutes roles={["ODONTOLOGO"]} />}>
         <Route path="/InicioOdontologo" element={<InicioOdontologo />} />

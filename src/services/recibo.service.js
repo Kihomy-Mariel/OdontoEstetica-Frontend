@@ -5,13 +5,13 @@ import { axiosConsultorio } from "../utils/configAxios";
 
 /** Obtener todos los recibos */
 export const getAllRecibos = async () => {
-  const { data } = await axiosConsultorio.get("/recibos");
+  const { data } = await axiosConsultorio.get("/recibo");
   return data;
 };
 
 /** Obtener un recibo por ID */
 export const getOneRecibo = async (id) => {
-  const { data } = await axiosConsultorio.get(`/recibos/${id}`);
+  const { data } = await axiosConsultorio.get(`/recibo/${id}`);
   return data;
 };
 
@@ -21,18 +21,18 @@ export const getOneRecibo = async (id) => {
  *  @param {Object} reciboDto => { idPago, fechaEmision, monto, saldoPendiente, observaciones, estado }
  */
 export const createRecibo = async (reciboDto) => {
-  const { data } = await axiosConsultorio.post("/recibos", reciboDto);
+  const { data } = await axiosConsultorio.post("/recibo", reciboDto);
   return data;
 };
 
 /** Actualizar un recibo parcial (PATCH) */
 export const updateRecibo = async (id, changes) => {
-  const { data } = await axiosConsultorio.patch(`/recibos/${id}`, changes);
+  const { data } = await axiosConsultorio.patch(`/recibo/${id}`, changes);
   return data;
 };
 
 /** Eliminar un recibo */
 export const deleteRecibo = async (id) => {
-  const { data } = await axiosConsultorio.delete(`/recibos/${id}`);
+  const { data } = await axiosConsultorio.delete(`/recibo/${id}`);
   return data;
 };

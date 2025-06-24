@@ -69,11 +69,24 @@ export const CompraPage = () => {
                 compras.map((compra, index) => (
                   <tr key={compra.idCompra} className="hover:bg-blue-50 transition">
                     <td className="px-4 py-3 text-sm">{index + 1}</td>
-                    <td className="px-4 py-3 text-sm">{compra.empleado?.nombre || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm">{compra.proveedor?.nombre || 'N/A'}</td>
+                    
+                    {/* ✅ Mostrar nombre del empleado completo */}
+                    <td className="px-4 py-3 text-sm">
+                      {compra.empleado?.persona
+                        ? `${compra.empleado.persona.nombres} ${compra.empleado.persona.apellidoPaterno} ${compra.empleado.persona.apellidoMaterno}`
+                        : 'N/A'}
+                    </td>
+
+                    {/* ✅ Mostrar nombre proveedor */}
+                    <td className="px-4 py-3 text-sm">
+                      {compra.proveedor?.nombreCompleto || 'N/A'}
+                    </td>
+
                     <td className="px-4 py-3 text-sm">{compra.fechaCompra}</td>
                     <td className="px-4 py-3 text-sm">{compra.estado}</td>
-                    <td className="px-4 py-3 text-sm">{parseFloat(compra.precioTotalCompra).toFixed(2)} Bs.</td>
+                    <td className="px-4 py-3 text-sm">
+                      {parseFloat(compra.precioTotalCompra).toFixed(2)} Bs.
+                    </td>
                   </tr>
                 ))
               )}

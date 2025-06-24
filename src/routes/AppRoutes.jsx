@@ -42,6 +42,7 @@ import { RegistrarCitaPageAdm } from "../pages/adm/cita/RegistrarCitaPageAdm";
 import { RegistrarPagoPageAdm } from "../pages/adm/pago/RegistrarPagoPageAdm";
 import { VerPagoPageAdm } from "../pages/adm/pago/VerPagoPageAdm";
 import { VerReciboPage } from "../pages/adm/recibo/VerReciboPage";
+import { ActualizarProductoPageAdm} from "../pages/adm/producto/ActualizarProductoPageAdm";
 
 
 
@@ -126,7 +127,10 @@ export const AppRoutes = () => {
         <Route path="/productos/nuevo"
           element={<RegistrarProductoPageAdm />}
         />
-
+        <Route
+          path="/productos/editar/:id" 
+          element={<ActualizarProductoPageAdm />} 
+        />
 
 
         <Route path="/pagos" element={<PagosPageAdm />} />

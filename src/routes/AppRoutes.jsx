@@ -114,7 +114,7 @@ export const AppRoutes = () => {
         <Route path="/pagos" element={<PagosPageAdm />} />
         <Route path="/citas" element={<CitasPageAdm />} />
         <Route path="/compras" element={<CompraPage />} />
-        <Route path="/compras/nueva" element={<NuevaCompraPage />} />
+        <Route path="/compras/registrar" element={<NuevaCompraPage />} />
         <Route path="/cita-nueva" element={<RegistrarCitaPageAdm />} />
         <Route path="/registrar-pago" element={<RegistrarPagoPageAdm />} />
         <Route path="/ver-pago/:idPago" element={<VerPagoPageAdm />} />

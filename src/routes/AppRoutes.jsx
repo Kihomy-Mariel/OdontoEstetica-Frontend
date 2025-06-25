@@ -47,9 +47,23 @@ import { RegistrarPagoPageAdm } from "../pages/adm/pago/RegistrarPagoPageAdm";
 import { VerPagoPageAdm } from "../pages/adm/pago/VerPagoPageAdm";
 import { VerReciboPage } from "../pages/adm/recibo/VerReciboPage";
 
-// Rutas asistente que tú creaste
+// Rutas asistente
 import { PacientesPageAsist } from "../pages/asistente/pacientes/PacientesPageAsist";
 import { RegistrarPacientePageAsist } from "../pages/asistente/pacientes/RegistrarPacientePageAsist";
+import { ActualizarPacientePageAsist } from "../pages/asistente/pacientes/ActualizarPacientePageAsist";
+import { PagoForm } from "../pages/asistente/pagos/PagoForm";
+import { CitasPageAsist } from "../pages/asistente/citas/CitasPageAsist";
+import { CitaForm } from "../pages/asistente/citas/CitaForm";
+import { PagosPageAsist } from "../pages/asistente/pagos/PagosPageAsist";
+import { VerPagoPageAsist } from "../pages/asistente/pagos/VerPagoPageAsist";
+import { ServiciosPageAsist } from "../pages/asistente/servicios/ServiciosPageAsist";
+import { RegistrarServicioAsist } from "../pages/asistente/servicios/RegistrarServicioPageAsist";
+import { EditarServicioPageAsist } from "../pages/asistente/servicios/EditarServicioPageAsist";
+import { VerReciboPageAsist } from "../pages/asistente/recibos/VerReciboPageAsist";
+import { RecibosPageAsist } from "../pages/asistente/recibos/RecibosPageAsist";
+import { TurnosPageAsist } from "../pages/asistente/turnos/TurnosPageAsist";
+import { RegistrarTurnoPageAsist } from "../pages/asistente/turnos/RegistrarTurnoPageAsist";
+import { ActualizarTurnoPageAsist } from "../pages/asistente/turnos/ActualizarTurnoPageAsist";
 
 export const AppRoutes = () => {
   return (
@@ -112,6 +126,27 @@ export const AppRoutes = () => {
         <Route path="/inicio-asistente" element={<InicioAsistente />} />
         <Route path="/asistente/pacientes" element={<PacientesPageAsist />} />
         <Route path="/registrar-pacientes-asist" element={<RegistrarPacientePageAsist />} />
+        <Route path="/asistente/pacientes/:idPaciente/editar" element={<ActualizarPacientePageAsist />} />
+
+        <Route path="/asistente/pagos" element={<PagoForm />} />
+        <Route path="/asistente/registrar-pago" element={<PagosPageAsist />} />
+        <Route path="/asistente/pagos" element={<VerPagoPageAsist />} />
+
+
+        <Route path="/asistente/citas" element={<CitasPageAsist />} />
+        <Route path="/asistente/cita-nueva" element={<CitaForm />} />
+
+        <Route path="/asistente/servicios" element={<ServiciosPageAsist />} />
+        <Route path="/asistente/servicios/nuevo" element={<RegistrarServicioAsist />} />
+        <Route path="/asistente/servicios/:id/editar" element={<EditarServicioPageAsist />} />
+
+        <Route path="/asistente/ver-recibo/:idRecibo" element={<VerReciboPageAsist />} />
+        <Route path="/asistente/recibos" element={<RecibosPageAsist />} />
+
+        <Route path="/asistente/turnos" element={<TurnosPageAsist />} />
+        <Route path="/turno/nuevo" element={<RegistrarTurnoPageAsist />} />
+        <Route path="/turno/editar/:idTurno" element={<ActualizarTurnoPageAsist />} />
+
       </Route>
 
       {/* RUTAS ODONTOLOGO */}

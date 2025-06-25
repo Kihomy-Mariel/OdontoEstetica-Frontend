@@ -126,7 +126,7 @@ export const AppRoutes = () => {
         <Route path="/inicio-asistente" element={<InicioAsistente />} />
         <Route path="/asistente/pacientes" element={<PacientesPageAsist />} />
         <Route path="/registrar-pacientes-asist" element={<RegistrarPacientePageAsist />} />
-        <Route path="/asistente/pacientes/:idPaciente/editar" element={<ActualizarPacientePageAsist />} />
+        <Route path="/asistente/pacientes/ActualizarPacientePageAsist" element={<ActualizarPacientePageAsist />} />
 
         <Route path="/asistente/pagos" element={<PagoForm />} />
         <Route path="/asistente/registrar-pago" element={<PagosPageAsist />} />

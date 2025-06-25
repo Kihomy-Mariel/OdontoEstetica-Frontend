@@ -37,6 +37,7 @@ import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProduct
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
 import { CompraPage } from "../pages/adm/compra/CompraPage";
+import { RegistrarCompraPage } from "../pages/adm/compra/RegistrarCompraPage";
 import { RegistrarEmpleadoServicioPage } from "../pages/adm/empleado/RegistrarEmpleadoServicio";
 import { RegistrarCitaPageAdm } from "../pages/adm/cita/RegistrarCitaPageAdm";
 import { RegistrarPagoPageAdm } from "../pages/adm/pago/RegistrarPagoPageAdm";
@@ -164,6 +165,10 @@ export const AppRoutes = () => {
         <Route
           path="/compras"
           element={<CompraPage />}
+        />
+        <Route
+          path="/compras/registrar"
+          element={<RegistrarCompraPage />}
         />
         <Route
           path="/empleados/:idEmpleado/registrar-servicio"

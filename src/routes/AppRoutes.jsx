@@ -6,6 +6,8 @@ import { Inicio } from "../pages/Inicio/Inicio";
 import { InicioOdontologo } from "../pages/Inicio/InicioOdontologo";
 import { InicioPaciente } from "../pages/Inicio/InicioPaciente";
 import { Register } from "../pages/Register";
+import { InicioAsistente } from "../pages/Inicio/InicioAsistente";
+
 import { InicioAdm } from "../pages/Inicio/InicioAdm";
 import { AsignarTurnoPage } from "../pages/adm/asistencia/AsignarTurnosPage";
 import { EmpleadosPage } from "../pages/adm/empleado/EmpleadosPage";
@@ -37,15 +39,34 @@ import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProduct
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
 import { CompraPage } from "../pages/adm/compra/CompraPage";
+import { NuevaCompraPage } from "../pages/adm/compra/NuevaCompraPage";
+import { ServiciosPacientePage } from "../pages/paciente/servicios/serviciosPage";
+import { HorariosDoctoresPage } from "../pages/paciente/horario/horariosDoctores";
+import { ActualizarProductoPageAdm } from "../pages/adm/producto/ActualizarProductoPageAdm";
 import { RegistrarCompraPage } from "../pages/adm/compra/RegistrarCompraPage";
 import { RegistrarEmpleadoServicioPage } from "../pages/adm/empleado/RegistrarEmpleadoServicio";
 import { RegistrarCitaPageAdm } from "../pages/adm/cita/RegistrarCitaPageAdm";
 import { RegistrarPagoPageAdm } from "../pages/adm/pago/RegistrarPagoPageAdm";
 import { VerPagoPageAdm } from "../pages/adm/pago/VerPagoPageAdm";
 import { VerReciboPage } from "../pages/adm/recibo/VerReciboPage";
-import { ActualizarProductoPageAdm} from "../pages/adm/producto/ActualizarProductoPageAdm";
 
-
+// Rutas asistente
+import { PacientesPageAsist } from "../pages/asistente/pacientes/PacientesPageAsist";
+import { RegistrarPacientePageAsist } from "../pages/asistente/pacientes/RegistrarPacientePageAsist";
+import { ActualizarPacientePageAsist } from "../pages/asistente/pacientes/ActualizarPacientePageAsist";
+import { PagoForm } from "../pages/asistente/pagos/PagoForm";
+import { CitasPageAsist } from "../pages/asistente/citas/CitasPageAsist";
+import { CitaForm } from "../pages/asistente/citas/CitaForm";
+import { PagosPageAsist } from "../pages/asistente/pagos/PagosPageAsist";
+import { VerPagoPageAsist } from "../pages/asistente/pagos/VerPagoPageAsist";
+import { ServiciosPageAsist } from "../pages/asistente/servicios/ServiciosPageAsist";
+import { RegistrarServicioAsist } from "../pages/asistente/servicios/RegistrarServicioPageAsist";
+import { EditarServicioPageAsist } from "../pages/asistente/servicios/EditarServicioPageAsist";
+import { VerReciboPageAsist } from "../pages/asistente/recibos/VerReciboPageAsist";
+import { RecibosPageAsist } from "../pages/asistente/recibos/RecibosPageAsist";
+import { TurnosPageAsist } from "../pages/asistente/turnos/TurnosPageAsist";
+import { RegistrarTurnoPageAsist } from "../pages/asistente/turnos/RegistrarTurnoPageAsist";
+import { ActualizarTurnoPageAsist } from "../pages/asistente/turnos/ActualizarTurnoPageAsist";
 
 export const AppRoutes = () => {
   return (
@@ -53,38 +74,46 @@ export const AppRoutes = () => {
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Ruta central que redirige según el rol */}
       <Route
         path="/inicio"
         element={
-          <PrivateRoutes
-            roles={["ODONTOLOGO", "ASISTENTE", "PACIENTE", "AUXILIAR", "ADM"]}
-          >
+          <PrivateRoutes roles={["ODONTOLOGO", "ASISTENTE", "PACIENTE", "AUXILIAR", "ADM"]}>
             <Inicio />
           </PrivateRoutes>
         }
       />
 
+      {/* RUTAS ADM */}
       <Route element={<PrivateRoutes roles={["ADM"]} />}>
         <Route path="/inicio-adm" element={<InicioAdm />} />
-        <Route
-          path="/asistencia/asignarTurno/:idEmpleado"
-          element={<AsignarTurnoPage />}
-        />
+        <Route path="/asistencia/asignarTurno/:idEmpleado" element={<AsignarTurnoPage />} />
         <Route path="/empleados" element={<EmpleadosPage />} />
+        <Route path="/empleados/editar/:idEmpleado" element={<EditarEmpleadoPage />} />
+        <Route path="/empleados/:idEmpleado/servicios" element={<EmpleadoServicioPage />} />
+        <Route path="/empleados/:idEmpleado/registrar-servicio" element={<RegistrarEmpleadoServicioPage />} />
+        <Route path="/registrar-empleado" element={<RegistrarEmpleadoPage />} />
+        <Route path="/proveedores" element={<ProveedorPage />} />
+        <Route path="/proveedores/registrar" element={<RegistrarProveedorPage />} />
+        <Route path="/proveedores/editar/:id" element={<EditarProveedorPage />} />
         <Route path="/pacientes" element={<PacientesPage />} />
         <Route path="/turnos" element={<TurnosPage />} />
         <Route path="/turno/nuevo" element={<RegistrarTurnoPage />} />
+        <Route path="/turno/editar/:idTurno" element={<ActualizarTurnoPage />} />
         <Route path="/servicios" element={<ServiciosPageAdm />} />
         <Route path="/servicios/nuevo" element={<RegistrarServicioAdm />} />
-        <Route
-          path="/servicios/:id/editar"
-          element={<EditarServicioPageAdm />}
-        />
-        <Route
-          path="/pacientes/:idPaciente/historial/nuevo"
-          element={<RegistrarHistorialClinicoPage />}
-        />
+        <Route path="/servicios/:id/editar" element={<EditarServicioPageAdm />} />
+        <Route path="/pacientes/:idPaciente/historial/nuevo" element={<RegistrarHistorialClinicoPage />} />
+        <Route path="/pacientes/:idPaciente/historial" element={<HistoriasClinicoPage />} />
+        <Route path="/pacientes/:idPaciente/historial/:idHistorial" element={<HistorialClinicoPacientePage />} />
+        <Route path="/pacientes/:idPaciente/historial/:idHistorial/odontograma" element={<OdontogramaPacientePage />} />
+        <Route path="/pacientes/:idPaciente/historial/:idHistorial/odontograma/:idOdontograma/detalle/:idDetalle" element={<DetalleOdontogramaPage />} />
+        <Route path="/pacientes/:idPaciente/historial/:idHistorial/odontograma/:idOdontograma/detalle/:idDetalle" element={<DetalleDientePage />} />
+        <Route path="/pacientes/:idPaciente/historial/:idHistorial/odontograma/nuevo" element={<RegistrarOdontogramaPage />} />
+        <Route path="/productos" element={<ProductoPageAdm />} />
+        <Route path="/productos/nuevo" element={<RegistrarProductoPageAdm />} />
+        <Route path="/productos/editar/:id" element={<ActualizarProductoPageAdm />} />
+        <Route path="/registrar-pacientes" element={<RegistrarPacientePage />} />
+        <Route path="/pacientes/:idPaciente/editar" element={<ActualizarPacientePage />} />
 
         <Route
           path="/turno/editar/:idTurno"
@@ -136,36 +165,48 @@ export const AppRoutes = () => {
 
         <Route path="/pagos" element={<PagosPageAdm />} />
         <Route path="/citas" element={<CitasPageAdm />} />
-        <Route path="/productos" element={<ProductoPageAdm />} />
+        <Route path="/compras" element={<CompraPage />} />
+        <Route path="/compras/registrar" element={<NuevaCompraPage />} />
+        <Route path="/cita-nueva" element={<RegistrarCitaPageAdm />} />
+        <Route path="/registrar-pago" element={<RegistrarPagoPageAdm />} />
+        <Route path="/ver-pago/:idPago" element={<VerPagoPageAdm />} />
+        <Route path="/ver-recibo/:idRecibo" element={<VerReciboPage />} />
+      </Route>
 
-        <Route
-          path="/registrar-pacientes"
-          element={<RegistrarPacientePage />}
-        />
-        <Route
-          path="/pacientes/:idPaciente/editar"
-          element={<ActualizarPacientePage />}
-        />
-        <Route path="/registrar-empleado" element={<RegistrarEmpleadoPage />} />
-        <Route path="/empleados/editar/:idEmpleado" element={<EditarEmpleadoPage />} />
-        <Route path="/proveedores" element={<ProveedorPage />} />
-        <Route path="/proveedores/registrar" element={<RegistrarProveedorPage />} />
+      {/* RUTAS ASISTENTE */}
+      <Route element={<PrivateRoutes roles={["ASISTENTE"]} />}>
+        <Route path="/inicio-asistente" element={<InicioAsistente />} />
+        <Route path="/asistente/pacientes" element={<PacientesPageAsist />} />
+        <Route path="/registrar-pacientes-asist" element={<RegistrarPacientePageAsist />} />
+        <Route path="/pacientes/:idPaciente/editar/asist" element={<ActualizarPacientePageAsist />} />
 
-        <Route path="/proveedores/editar/:id" element={<EditarProveedorPage />} />
-
-
-        <Route
-          path="/empleados/editar/:idEmpleado"
-          element={<EditarEmpleadoPage />}
-        />
+        <Route path="/asistente/pagos" element={<PagoForm />} />
+        <Route path="/asistente/registrar-pago" element={<PagosPageAsist />} />
+        <Route path="/asistente/pagos" element={<VerPagoPageAsist />} />
 
 
-        <Route path="/empleados/:idEmpleado/servicios" element={<EmpleadoServicioPage />} />
+        <Route path="/asistente/citas" element={<CitasPageAsist />} />
+        <Route path="/asistente/cita-nueva" element={<CitaForm />} />
 
+        <Route path="/asistente/servicios" element={<ServiciosPageAsist />} />
+        <Route path="/asistente/servicios/nuevo" element={<RegistrarServicioAsist />} />
+        <Route path="/asistente/servicios/:id/editar" element={<EditarServicioPageAsist />} />
+
+        <Route path="/asistente/ver-recibo/:idRecibo" element={<VerReciboPageAsist />} />
+        <Route path="/asistente/recibos" element={<RecibosPageAsist />} />
+
+        <Route path="/asistente/turnos" element={<TurnosPageAsist />} />
+        <Route path="/turno/nuevo" element={<RegistrarTurnoPageAsist />} />
+        <Route path="/turno/editar/:idTurno" element={<ActualizarTurnoPageAsist />} />
         <Route
           path="/compras"
           element={<CompraPage />}
         />
+
+        <Route
+          path="/productos/editar/:id" element={<ActualizarProductoPageAdm />}
+        />
+
         <Route
           path="/compras/registrar"
           element={<RegistrarCompraPage />}
@@ -199,16 +240,18 @@ export const AppRoutes = () => {
 
       </Route>
 
-
-
+      {/* RUTAS ODONTOLOGO */}
       <Route element={<PrivateRoutes roles={["ODONTOLOGO"]} />}>
         <Route path="/InicioOdontologo" element={<InicioOdontologo />} />
         <Route path="/pacientes" element={<PacientesPage />} />
       </Route>
 
+      {/* RUTAS PACIENTE */}
       <Route element={<PrivateRoutes roles={["PACIENTE"]} />}>
         <Route path="/inicio-paciente" element={<InicioPaciente />} />
         <Route path="/reservar-cita" element={<ReservarCitaPage />} />
+        <Route path="/paciente/servicios" element={<ServiciosPacientePage />} />
+        <Route path="/paciente/horario" element={<HorariosDoctoresPage />} />
       </Route>
     </Routes>
   );

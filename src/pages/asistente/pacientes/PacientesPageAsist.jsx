@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllPacientes, deletePaciente } from "../../../services/paciente.service";
-import { AdminLayout } from "../../../components/layouts/AdminLayout";
+import { AsistLayout } from "../../../components/layouts/AsistLayout";
 import { FileText, Eye, UserPlus, Pencil, Trash2 } from "lucide-react";
 
 export const PacientesPageAsist = () => {
@@ -44,12 +44,12 @@ export const PacientesPageAsist = () => {
   };
 
   return (
-    <AdminLayout>
+    <AsistLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <h2 className="text-3xl font-bold text-blue-700 text-center sm:text-left">Pacientes Registrados</h2>
           <button
-            onClick={() => navigate("/registrar-pacientes")}
+            onClick={() => navigate("/registrar-pacientes-asist")}
             className="flex items-center gap-2 px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow transition"
           >
             <UserPlus size={20} />
@@ -90,23 +90,10 @@ export const PacientesPageAsist = () => {
                  <td className="px-4 py-3 text-center text-blue-500 font-semibold">{idx + 1}</td>
                   <td className="px-4 py-2">
                     <div className="flex gap-2 justify-center">
-                      <button
-                        title="Registrar historial clínico"
-                        onClick={() => navigate(`/pacientes/${p.idPaciente}/historial/nuevo`)}
-                        className="p-2 rounded-lg bg-sky-200 hover:bg-sky-400 text-sky-800 hover:text-white transition"
-                      >
-                        <FileText size={20} />
-                      </button>
-                      <button
-                        title="Ver historiales clínicos"
-                        onClick={() => navigate(`/pacientes/${p.idPaciente}/historial`)}
-                        className="p-2 rounded-lg bg-sky-200 hover:bg-sky-400 text-sky-800 hover:text-white transition"
-                      >
-                        <Eye size={20} />
-                      </button>
+                     
                       <button
                         title="Editar paciente"
-                        onClick={() => navigate(`/pacientes/${p.idPaciente}/editar`)}
+                        onClick={() => navigate(`/pacientes/${p.idPaciente}/editar/asist`)}
                         className="p-2 rounded-lg bg-blue-200 hover:bg-blue-400 text-blue-800 hover:text-white transition"
                       >
                         <Pencil size={20} />
@@ -142,6 +129,6 @@ export const PacientesPageAsist = () => {
           </table>
         </div>
       </div>
-    </AdminLayout>
+    </AsistLayout>
   );
 };

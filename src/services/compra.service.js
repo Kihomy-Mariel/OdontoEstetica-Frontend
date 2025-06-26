@@ -33,3 +33,15 @@ export const registerCompra = async (compraData) => {
   const { data } = await axiosConsultorio.post('/compras', compraData);
   return data;
 };
+
+// Obtener todos los empleados
+export const getEmpleados = async () => {
+  const { data } = await axiosConsultorio.get('/empleados');
+  return data;
+};
+
+// Obtener todos los proveedores
+export const getProveedores = async () => {
+  const { data } = await axiosConsultorio.get('/proveedores');
+  return data;
+};

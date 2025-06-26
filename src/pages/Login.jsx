@@ -16,18 +16,25 @@ export const Login = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      await dispatch(loginThunk({ username, password }, navigate));
-    } catch (err) {
-      const msg = err.response?.data?.message || "Error inesperado";
-      setError(msg);
-    } finally {
-      setLoading(false);
-    }
-  };
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
+  try {
+    const user = await dispatch(loginThunk({ username, password }, navigate)).unwrap();
+
+    // ✅ Guarda el usuario en localStorage para que axios lo use
+    localStorage.setItem("userInfo", JSON.stringify(user));
+
+    // Redirige después de login
+    navigate("/compras");
+  } catch (err) {
+    const msg = err.response?.data?.message || "Error inesperado";
+    setError(msg);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 px-2 py-10">
@@ -74,7 +81,7 @@ export const Login = () => {
                 id="username"
                 type="text"
                 className="w-full py-1 bg-transparent border-none outline-none focus:ring-0 text-blue-900 font-medium placeholder-blue-300 text-base"
-                placeholder="ejemplo_usuario"
+                placeholder="Ingrese su Usuario"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 autoFocus

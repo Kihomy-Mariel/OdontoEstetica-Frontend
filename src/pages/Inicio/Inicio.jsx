@@ -10,6 +10,8 @@ export const Inicio = () => {
     case "ADM":
       return <Navigate to="/inicio-adm" />;
     // case "ASISTENTE":
+    case "ASISTENTE":
+      return <Navigate to="/inicio-asistente" />;
     //   return <Navigate to="/inicio-asistente" />;
      case "PACIENTE":
       return <Navigate to="/inicio-paciente" />;

@@ -30,3 +30,16 @@ export const deleteTurno = async (idTurno) => {
   return data;
 };
 
+/**
+ * Obtiene los turnos disponibles con información de disponibilidad
+ * @param {Date} fecha - Fecha para filtrar los turnos
+ * @returns {Promise<Array>} Lista de turnos con disponibilidad
+ */
+export const getTurnosDisponibles = async (fecha) => {
+  const { data } = await axiosConsultorio.get('/turnos/disponibles', {
+    params: {
+      fecha: fecha.toISOString().split('T')[0] // Formato YYYY-MM-DD
+    }
+  });
+  return data;
+};

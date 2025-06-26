@@ -1,5 +1,21 @@
 import { axiosConsultorio } from '../utils/configAxios';
 
+// Obtener todos los empleados
+export const getEmpleadoById = async (id) => {
+  const { data } = await axiosConsultorio.get(`/empleados/${id}`);
+  return data;
+};
+
+export const getProveedorById = async (id) => {
+  const { data } = await axiosConsultorio.get(`/proveedores/${id}`);
+  return data;
+};
+
+// Obtener todos los productos
+export const getProductoById = async (id) => {
+  const { data } = await axiosConsultorio.get(`/productos/${id}`);
+  return data;
+};
 // Obtener todas las compras
 export const getAllCompras = async () => {
   const { data } = await axiosConsultorio.get('/compras');

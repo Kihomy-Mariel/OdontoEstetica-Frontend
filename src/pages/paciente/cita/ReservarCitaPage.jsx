@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { createCita } from "../../../services/cita.service";
-import { AdminLayout } from "../../../components/layouts/AdminLayout";
+import { PacienteLayout } from "../../../components/layouts/PacienteLayout";
 import "./ReservarCitaPage.css";
 
 export const ReservarCitaPage = () => {
   const navigate = useNavigate();
-  const idPaciente = useSelector(s => s.usuario.id);
+  const idPaciente = useSelector(s => s.usuario.idPersona); // Asegúrate que es idPersona
   const [form, setForm] = useState({
     idPaciente,
     fecha: "",
@@ -33,7 +33,7 @@ export const ReservarCitaPage = () => {
   };
 
   return (
-    <AdminLayout>
+    <PacienteLayout>
       <div className="reservar-container">
         <h2>Reservar Cita</h2>
         <form onSubmit={handleSubmit} className="reservar-form">
@@ -72,6 +72,6 @@ export const ReservarCitaPage = () => {
           </button>
         </form>
       </div>
-    </AdminLayout>
+    </PacienteLayout>
   );
-};
+}; 

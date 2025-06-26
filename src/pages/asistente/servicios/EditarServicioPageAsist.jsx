@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { AsistLayout } from "../../../components/layouts/AsistLayout";
 import { getServicioById, updateServicio } from "../../../services/servicio.service";
 
+
 export const EditarServicioPageAsist = () => {
   const { id } = useParams();
   const navigate = useNavigate();

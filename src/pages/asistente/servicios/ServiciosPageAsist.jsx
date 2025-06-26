@@ -95,7 +95,7 @@ export const ServiciosPageAsist = () => {
                     <td className="px-4 py-3 text-sm">
                       <button
                         title="Editar"
-                        onClick={() => navigate(`/servicios/${s.idServicio}/editar`)}
+                        onClick={() => navigate(`/asistente/servicios/${s.idServicio}/editar`)}
                         className="text-blue-600 hover:bg-blue-100 rounded-md p-1 mr-2"
                       >
                         <Pencil size={18} />

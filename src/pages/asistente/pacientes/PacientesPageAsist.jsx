@@ -90,9 +90,10 @@ export const PacientesPageAsist = () => {
                  <td className="px-4 py-3 text-center text-blue-500 font-semibold">{idx + 1}</td>
                   <td className="px-4 py-2">
                     <div className="flex gap-2 justify-center">
+                     
                       <button
                         title="Editar paciente"
-                        onClick={() => navigate(`/pacientes/${p.idPaciente}/editar`)}
+                        onClick={() => navigate(`/pacientes/${p.idPaciente}/editar/asist`)}
                         className="p-2 rounded-lg bg-blue-200 hover:bg-blue-400 text-blue-800 hover:text-white transition"
                       >
                         <Pencil size={20} />

@@ -68,6 +68,9 @@ import { TurnosPageAsist } from "../pages/asistente/turnos/TurnosPageAsist";
 import { RegistrarTurnoPageAsist } from "../pages/asistente/turnos/RegistrarTurnoPageAsist";
 import { ActualizarTurnoPageAsist } from "../pages/asistente/turnos/ActualizarTurnoPageAsist";
 
+// Rutas odontologo
+// import { TurnosPageOdonto } from "../pages/odontologo/TurnosPage";
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -84,7 +87,7 @@ export const AppRoutes = () => {
       />
 
       {/* RUTAS ADM */}
-      <Route element={<PrivateRoutes roles={["ADM"]} />}>
+      <Route element={<PrivateRoutes roles={["ADM", "ODONTOLOGO"]} />}>
         <Route path="/inicio-adm" element={<InicioAdm />} />
         <Route path="/asistencia/asignarTurno/:idEmpleado" element={<AsignarTurnoPage />} />
         <Route path="/empleados" element={<EmpleadosPage />} />
@@ -243,7 +246,8 @@ export const AppRoutes = () => {
       {/* RUTAS ODONTOLOGO */}
       <Route element={<PrivateRoutes roles={["ODONTOLOGO"]} />}>
         <Route path="/InicioOdontologo" element={<InicioOdontologo />} />
-        <Route path="/pacientes" element={<PacientesPage />} />
+        {/* <Route path="/pacientes" element={<PacientesPage />} />
+       <Route path="/odontologo/turnos" element={<TurnosPageOdonto />} /> */}
       </Route>
 
       {/* RUTAS PACIENTE */}

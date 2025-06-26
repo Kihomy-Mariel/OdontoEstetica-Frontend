@@ -74,7 +74,7 @@ export const Login = () => {
                 id="username"
                 type="text"
                 className="w-full py-1 bg-transparent border-none outline-none focus:ring-0 text-blue-900 font-medium placeholder-blue-300 text-base"
-                placeholder="ejemplo_usuario"
+                placeholder="Ingrese su Usuario"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 autoFocus

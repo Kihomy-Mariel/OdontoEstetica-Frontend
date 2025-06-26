@@ -25,3 +25,21 @@ export const registerEmpleado = async (registerData) => {
   const { data } = await axiosConsultorio.post(`/empleados/register-empleado`, registerData);
   return data;
 };
+
+// Nuevos servicios específicos para doctores
+export const getAllDoctores = async () => {
+  const { data } = await axiosConsultorio.get('/empleados/doctores');
+  return data;
+};
+
+export const getDoctoresPorEspecialidad = async (especialidadId) => {
+  const { data } = await axiosConsultorio.get(`/empleados/doctores`, {
+    params: { especialidadId }
+  });
+  return data;
+};
+
+export const getEspecialidades = async () => {
+  const { data } = await axiosConsultorio.get('/empleados/especialidades');
+  return data;
+};

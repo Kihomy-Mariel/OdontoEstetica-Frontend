@@ -40,6 +40,9 @@ import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProduct
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
 import { CompraPage } from "../pages/adm/compra/CompraPage";
+import { ServiciosPacientePage } from "../pages/paciente/servicios/serviciosPage";
+import { HorariosDoctoresPage } from "../pages/paciente/horario/horariosDoctores";
+import { ActualizarProductoPageAdm } from "../pages/adm/producto/ActualizarProductoPageAdm";
 
 export const AppRoutes = () => {
   return (
@@ -71,14 +74,8 @@ export const AppRoutes = () => {
         <Route path="/turno/nuevo" element={<RegistrarTurnoPage />} />
         <Route path="/servicios" element={<ServiciosPageAdm />} />
         <Route path="/servicios/nuevo" element={<RegistrarServicioAdm />} />
-        <Route
-          path="/servicios/:id/editar"
-          element={<EditarServicioPageAdm />}
-        />
-        <Route
-          path="/pacientes/:idPaciente/historial/nuevo"
-          element={<RegistrarHistorialClinicoPage />}
-        />
+        <Route path="/servicios/:id/editar" element={<EditarServicioPageAdm />} />
+        <Route path="/pacientes/:idPaciente/historial/nuevo" element={<RegistrarHistorialClinicoPage />} />
 
         <Route
           path="/turno/editar/:idTurno"
@@ -130,8 +127,8 @@ export const AppRoutes = () => {
           path="/productos"
           element={<ProductoPageAdm />}
         />
-        <Route path="/productos/nuevo" 
-        element={<RegistrarProductoPageAdm />} 
+        <Route path="/productos/nuevo"
+          element={<RegistrarProductoPageAdm />}
         />
 
 
@@ -153,19 +150,23 @@ export const AppRoutes = () => {
         <Route path="/proveedores/registrar" element={<RegistrarProveedorPage />} />
         <Route
           path="/empleados/editar/:idEmpleado"
-          element={<EditarEmpleadoPage />} 
+          element={<EditarEmpleadoPage />}
         />
 
         <Route path="/empleados/:idEmpleado/servicios" element={<EmpleadoServicioPage />} />
 
         <Route
           path="/compras"
-          element={<CompraPage />} 
+          element={<CompraPage />}
+        />
+
+        <Route
+          path="/productos/editar/:id" element={<ActualizarProductoPageAdm />}
         />
 
       </Route>
 
-      
+
 
       <Route element={<PrivateRoutes roles={["ODONTOLOGO"]} />}>
         <Route path="/InicioOdontologo" element={<InicioOdontologo />} />
@@ -175,6 +176,8 @@ export const AppRoutes = () => {
       <Route element={<PrivateRoutes roles={["PACIENTE"]} />}>
         <Route path="/inicio-paciente" element={<InicioPaciente />} />
         <Route path="/reservar-cita" element={<ReservarCitaPage />} />
+        <Route path="/paciente/servicios" element={<ServiciosPacientePage />} />
+        <Route path="/paciente/horario" element={<HorariosDoctoresPage />} />
       </Route>
     </Routes>
   );

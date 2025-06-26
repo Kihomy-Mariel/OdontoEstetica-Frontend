@@ -47,6 +47,7 @@ export const CompraPage = () => {
                 <th className="text-left px-4 py-3 text-sm font-semibold text-blue-800">N°</th>
                 <th className="text-left px-4 py-3 text-sm font-semibold text-blue-800">Empleado</th>
                 <th className="text-left px-4 py-3 text-sm font-semibold text-blue-800">Proveedor</th>
+                <th className="text-left px-4 py-3 text-sm font-semibold text-blue-800">Producto</th>
                 <th className="text-left px-4 py-3 text-sm font-semibold text-blue-800">Fecha</th>
                 <th className="text-left px-4 py-3 text-sm font-semibold text-blue-800">Estado</th>
                 <th className="text-left px-4 py-3 text-sm font-semibold text-blue-800">Total (Bs.)</th>
@@ -55,13 +56,13 @@ export const CompraPage = () => {
             <tbody className="bg-white divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-6 text-gray-500">
+                  <td colSpan="7" className="text-center py-6 text-gray-500">
                     Cargando compras...
                   </td>
                 </tr>
               ) : compras.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-6 text-gray-500">
+                  <td colSpan="7" className="text-center py-6 text-gray-500">
                     No hay compras registradas.
                   </td>
                 </tr>
@@ -71,6 +72,7 @@ export const CompraPage = () => {
                     <td className="px-4 py-3 text-sm">{index + 1}</td>
                     <td className="px-4 py-3 text-sm">{compra.empleado?.nombre || 'N/A'}</td>
                     <td className="px-4 py-3 text-sm">{compra.proveedor?.nombre || 'N/A'}</td>
+                    <td className="px-4 py-3 text-sm">{compra.nombreProducto || 'N/A'}</td>
                     <td className="px-4 py-3 text-sm">{compra.fechaCompra}</td>
                     <td className="px-4 py-3 text-sm">{compra.estado}</td>
                     <td className="px-4 py-3 text-sm">{parseFloat(compra.precioTotalCompra).toFixed(2)} Bs.</td>

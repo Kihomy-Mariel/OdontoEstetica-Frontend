@@ -41,6 +41,16 @@ import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProduct
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
 import { CompraPage } from "../pages/adm/compra/CompraPage";
+<<<<<<< Updated upstream
+=======
+import { RegistrarEmpleadoServicioPage } from "../pages/adm/empleado/RegistrarEmpleadoServicio";
+import { RegistrarCitaPageAdm } from "../pages/adm/cita/RegistrarCitaPageAdm";
+import { RegistrarPagoPageAdm } from "../pages/adm/pago/RegistrarPagoPageAdm";
+import { VerPagoPageAdm } from "../pages/adm/pago/VerPagoPageAdm";
+import { VerReciboPage } from "../pages/adm/recibo/VerReciboPage";
+import { ActualizarProductoPageAdm} from "../pages/adm/producto/ActualizarProductoPageAdm";
+import { RegistrarCompraPage } from "../pages/adm/compra/RegistrarCompraPage";
+>>>>>>> Stashed changes
 
 
 export const AppRoutes = () => {
@@ -155,7 +165,39 @@ export const AppRoutes = () => {
 
         <Route
           path="/compras"
+<<<<<<< Updated upstream
           element={<CompraPage />} 
+=======
+          element={<CompraPage />}
+        />
+        <Route path="/compras/nueva" element={<RegistrarCompraPage />} />
+
+        <Route
+          path="/empleados/:idEmpleado/registrar-servicio"
+          element={<RegistrarEmpleadoServicioPage />}
+        />
+
+        <Route
+          path="/cita-nueva"
+          element={<RegistrarCitaPageAdm />}
+        />
+
+
+
+        <Route
+          path="/registrar-pago"
+          element={<RegistrarPagoPageAdm />}
+        />
+
+        <Route
+          path="/ver-pago/:idPago"
+          element={<VerPagoPageAdm />}
+        />
+
+        <Route
+          path="/ver-recibo/:idRecibo"
+          element={<VerReciboPage/>}
+>>>>>>> Stashed changes
         />
 
       </Route>

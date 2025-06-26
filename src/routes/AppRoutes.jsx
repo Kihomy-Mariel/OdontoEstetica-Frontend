@@ -36,7 +36,6 @@ import { ProveedorPage } from "../pages/adm/proveedor/ProveedorPage";
 import { RegistrarProveedorPage } from "../pages/adm/proveedor/RegistrarProveedorPage";
 import { EditarProveedorPage } from "../pages/adm/proveedor/EditarProveedorPage";
 import { RegistrarProductoPageAdm } from "../pages/adm/producto/RegistrarProductoPageAdm";
-import { ActualizarProductoPageAdm } from "../pages/adm/producto/ActualizarProductoPageAdm";
 import { RegistrarTurnoPage } from "../pages/adm/turno/RegistrarTurnoPage";
 import { ActualizarTurnoPage } from "../pages/adm/turno/ActualizarTurnoPage";
 import { CompraPage } from "../pages/adm/compra/CompraPage";

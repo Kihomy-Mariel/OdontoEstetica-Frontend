@@ -1,27 +1,91 @@
 // src/pages/Empleados/EmpleadoServicioPage.jsx
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getServiciosByEmpleado } from '../../../services/realiza.service';
+import {
+    getServiciosByEmpleado,
+    updateRealiza,
+    deleteRealiza,
+} from '../../../services/realiza.service';
 import { AdminLayout } from '../../../components/layouts/AdminLayout';
-import { Loader2, ArrowLeft } from 'lucide-react';
+import { Loader2, ArrowLeft, Pencil, Trash2, Save, X } from 'lucide-react';
 
 export const EmpleadoServicioPage = () => {
     const { idEmpleado } = useParams();
     const navigate = useNavigate();
     const [servicios, setServicios] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [editId, setEditId] = useState(null);
+    const [observacionesEdit, setObservacionesEdit] = useState('');
+
+    const fetchServicios = async () => {
+        try {
+            const data = await getServiciosByEmpleado(idEmpleado);
+            setServicios(data);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetch = async () => {
-            try {
-                const data = await getServiciosByEmpleado(idEmpleado);
-                setServicios(data);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetch();
+        fetchServicios();
     }, [idEmpleado]);
+
+    const handleEdit = (id, observaciones) => {
+        setEditId(id);
+        setObservacionesEdit(observaciones || '');
+    };
+
+    const handleCancel = () => {
+        setEditId(null);
+        setObservacionesEdit('');
+    };
+
+    const handleSave = async (idServicio) => {
+        try {
+            const payload = {
+                idEmpleado: Number(idEmpleado),
+                idServicio: Number(idServicio),
+                observaciones: observacionesEdit.trim(),
+            };
+
+            console.log('Enviando actualización:', payload);
+
+            await updateRealiza(payload);
+            await fetchServicios();
+            setEditId(null);
+            setObservacionesEdit('');
+
+            // Opcional: Mostrar mensaje de éxito
+            alert('Observaciones actualizadas correctamente');
+        } catch (error) {
+            console.error('Error al actualizar:', error);
+            alert('Error al actualizar las observaciones');
+        }
+    };
+
+    const handleDelete = async (idServicio) => {
+        if (!window.confirm('¿Estás seguro de que deseas eliminar este servicio que realiza el doctor?')) {
+            return;
+        }
+
+        try {
+            const payload = {
+                idEmpleado: Number(idEmpleado),
+                idServicio: Number(idServicio),
+            };
+
+            console.log('Enviando eliminación:', payload);
+
+            await deleteRealiza(payload);
+            await fetchServicios();
+
+            // Opcional: Mostrar mensaje de éxito
+            alert('Servicio eliminado correctamente');
+        } catch (error) {
+            console.error('Error al eliminar:', error);
+            alert('Error al desactivar el servicio');
+        }
+    };
 
     return (
         <AdminLayout>
@@ -39,6 +103,7 @@ export const EmpleadoServicioPage = () => {
                         Servicios realizados
                     </h1>
                 </header>
+
                 <div className="flex justify-end mb-6">
                     <button
                         onClick={() => navigate(`/empleados/${idEmpleado}/registrar-servicio`)}
@@ -48,7 +113,6 @@ export const EmpleadoServicioPage = () => {
                     </button>
                 </div>
 
-
                 {/* Contenido */}
                 {loading ? (
                     <p className="flex items-center gap-2 text-blue-600">
@@ -56,7 +120,7 @@ export const EmpleadoServicioPage = () => {
                     </p>
                 ) : servicios.length === 0 ? (
                     <p className="text-blue-600">
-                        Este odontólogo aún no tiene servicios registrados.
+                        Aún no tiene servicios registrados.
                     </p>
                 ) : (
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -68,9 +132,49 @@ export const EmpleadoServicioPage = () => {
                                 <h3 className="font-bold text-blue-800 mb-1">
                                     {srv.servicio?.nombreServicio ?? 'Servicio sin nombre'}
                                 </h3>
-                                <p className="text-blue-600 text-sm flex-1">
-                                    Observaciones: {srv.observaciones || '—'}
-                                </p>
+                                {editId === srv.idServicio ? (
+                                    <textarea
+                                        value={observacionesEdit}
+                                        onChange={(e) => setObservacionesEdit(e.target.value)}
+                                        className="border border-blue-200 rounded-xl p-2 text-blue-800 resize-none mb-2"
+                                    />
+                                ) : (
+                                    <p className="text-blue-600 text-sm flex-1">
+                                        Observaciones: {srv.observaciones || '—'}
+                                    </p>
+                                )}
+
+                                <div className="flex gap-2 mt-4">
+                                    {editId === srv.idServicio ? (
+                                        <>
+                                            <button
+                                                onClick={() => handleSave(srv.idServicio)}
+                                                className="text-green-600 hover:text-green-800"
+                                            >
+                                                <Save size={18} />
+                                            </button>
+                                            <button
+                                                onClick={handleCancel}
+                                                className="text-gray-500 hover:text-gray-700"
+                                            >
+                                                <X size={18} />
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleEdit(srv.idServicio, srv.observaciones)}
+                                            className="text-blue-600 hover:text-blue-800"
+                                        >
+                                            <Pencil size={18} />
+                                        </button>
+                                    )}
+                                    <button
+                                        onClick={() => handleDelete(srv.idServicio)}
+                                        className="text-red-600 hover:text-red-800"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
+                                </div>
                             </article>
                         ))}
                     </div>

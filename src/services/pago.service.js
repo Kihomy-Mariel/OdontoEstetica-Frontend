@@ -29,3 +29,6 @@ export const deletePago = async (id) => {
   const { data } = await axiosConsultorio.delete(`/pago/${id}`);
   return data;
 };
+
+export const getPagosByCita = (idCita) =>
+  axiosConsultorio.get(`/pago/cita/${idCita}`).then(r => r.data);

@@ -50,25 +50,18 @@ export const getServiciosConOdontologos = async () => {
   return data;
 };
 
-/* ───────────────────────  ACTUALIZAR / PATCH  ──────────────────────── */
 
-// Actualiza observaciones, habilitado, etc.
-export const updateRealiza = async (
-  idEmpleado,
-  idServicio,
-  updatePayload
-) => {
+/* ───────────────────────  ACTUALIZAR / PATCH  ──────────────────────── */
+export const updateRealiza = async ({ idEmpleado, idServicio, observaciones }) => {
   const { data } = await axiosConsultorio.patch(
     `/realiza/${idEmpleado}/${idServicio}`,
-    updatePayload
+    { observaciones }
   );
   return data;
 };
 
 /* ───────────────────────────  ELIMINAR  ───────────────────────────── */
-
-// Elimina la relación empleado‑servicio
-export const deleteRealiza = async (idEmpleado, idServicio) => {
+export const deleteRealiza = async ({ idEmpleado, idServicio }) => {
   const { data } = await axiosConsultorio.delete(
     `/realiza/${idEmpleado}/${idServicio}`
   );

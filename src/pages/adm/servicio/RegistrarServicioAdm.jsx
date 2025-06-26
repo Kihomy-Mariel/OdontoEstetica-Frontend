@@ -10,6 +10,7 @@ export const RegistrarServicioAdm = () => {
     descripcion: "",
     duracionEstimada: "",
     precio: "",
+    observaciones: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -106,6 +107,9 @@ export const RegistrarServicioAdm = () => {
               placeholder="Ej: 25.00"
             />
           </div>
+
+
+
 
           <div className="flex justify-end space-x-4 pt-4">
             <button

@@ -23,6 +23,7 @@ export const PagosPageAdm = () => {
     const [filterFecha, setFilterFecha] = useState("");
     const [filterPagos, setFilterPagos] = useState("ALL");
     const [loading, setLoading] = useState(false);
+    
 
 
     // Cargar citas y pagos juntos
@@ -102,6 +103,7 @@ export const PagosPageAdm = () => {
         if (yyyy && mm && dd) return `${dd}-${mm}-${yyyy}`;
         return fecha;
     };
+    
 
     return (
         <AdminLayout>
@@ -184,7 +186,7 @@ export const PagosPageAdm = () => {
                                         const tienePago = !!cita.pago && cita.pago.habilitado !== false && cita.pago.habilitado !== 0;
                                         // Solo calcula si tiene pago:
                                         const tieneRecibo = tienePago && Array.isArray(cita.pago.recibos) && cita.pago.recibos.length > 0;
-                                        const idRecibo = tieneRecibo ? cita.pago.recibos[0].idRecibo : null;
+                                        const idRecibo = cita.pago?.recibos?.[0]?.idRecibo ?? null;
                                         return (
                                             <tr key={cita.idCita} className="hover:bg-blue-100 even:bg-blue-50 transition-colors">
                                                 <td className="py-2 px-4 text-center">{i + 1}</td>
@@ -237,7 +239,7 @@ export const PagosPageAdm = () => {
                                                                 <span className="hidden sm:inline">Ver Pago</span>
                                                             </button>
                                                             {/* Recibo */}
-                                                            {tieneRecibo ? (
+                                                            {tieneRecibo && idRecibo ? (
                                                                 <button
                                                                     className="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg flex items-center gap-2 px-3 py-1 shadow border border-cyan-700 transition-all active:scale-95"
                                                                     onClick={() => navigate(`/ver-recibo/${idRecibo}`)}
@@ -250,17 +252,18 @@ export const PagosPageAdm = () => {
                                                                     <span className="hidden sm:inline font-semibold">Ver Recibo</span>
                                                                 </button>
                                                             ) : (
-                                                                <button
-                                                                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg flex items-center gap-2 px-3 py-1 shadow border border-blue-700 transition-all active:scale-95"
-                                                                    onClick={() => navigate(`/generar-recibo/${cita.pago.idPago}`)}
-                                                                    title="Generar Recibo"
-                                                                >
-                                                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
-                                                                        <rect x="4" y="3" width="16" height="18" rx="2" fill="#bfdbfe" stroke="#2563eb" strokeWidth="1.5" />
-                                                                        <path d="M8 8h8M8 12h8M8 16h4" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round" />
-                                                                    </svg>
-                                                                    <span className="hidden sm:inline font-semibold">Generar Recibo</span>
-                                                                </button>
+
+                                                            <button
+                                                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg flex items-center gap-2 px-3 py-1 shadow border border-blue-700 transition-all active:scale-95"
+                                                                onClick={() => navigate(`/generar-recibo/${cita.pago.idPago}`)}
+                                                                title="Generar Recibo"
+                                                            >
+                                                                <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                                    <rect x="4" y="3" width="16" height="18" rx="2" fill="#bfdbfe" stroke="#2563eb" strokeWidth="1.5" />
+                                                                    <path d="M8 8h8M8 12h8M8 16h4" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round" />
+                                                                </svg>
+                                                                <span className="hidden sm:inline font-semibold">Generar Recibo</span>
+                                                            </button>
                                                             )}
                                                         </>
                                                     ) : (

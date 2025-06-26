@@ -23,7 +23,6 @@ const MENU = [
   { label: "Turnos", icon: Calendar, path: "/turnos" },
   { label: "Servicios", icon: Smile, path: "/servicios" },
   { label: "Pagos", icon: CreditCard, path: "/pagos" },
-  { label: "Recibos", icon: FileText, path: "/recibos" },
   { label: "Citas", icon: CalendarDays, path: "/citas" },
   { label: "Inventario", icon: PackageSearch, path: "/productos" },
   { label: "Proveedores", icon: PackageSearch, path: "/proveedores" },

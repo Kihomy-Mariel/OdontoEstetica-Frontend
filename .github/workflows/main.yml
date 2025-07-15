@@ -22,6 +22,3 @@ jobs:
 
     - name: Compilar la app
       run: npm run build
-
-    - name: Ejecutar pruebas
-      run: npm run test

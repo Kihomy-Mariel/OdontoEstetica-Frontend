@@ -38,7 +38,8 @@ export const EditarEmpleadoPage = () => {
             apellidoMaterno: data.persona?.apellidoMaterno || "",
             ci: data.persona?.ci || "",
             fechaNacimiento: data.persona?.fechaNacimiento?.slice(0, 10) || "",
-            telefono: data.persona?.telefono || "",
+            telefono: data.persona?.telefono?.toString() || "",
+
             email: data.persona?.email || "",
           },
           usuario: {
@@ -113,7 +114,7 @@ export const EditarEmpleadoPage = () => {
 
 
       setMensaje("¡Empleado actualizado correctamente!");
-      setTimeout(() => navigate("/empleados"), 1500);
+      setTimeout(() => navigate("/empleados"), 500);
     } catch (err) {
       setError(
         err?.response?.data?.message?.toString() ||

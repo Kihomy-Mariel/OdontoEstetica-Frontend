@@ -20,7 +20,10 @@ export const InicioAsistente = () => {
       try {
         setPacientes(await getAllPacientes());
         setServicios(await getAllServicios());
-        setCitas(await getCitas());
+        const todasLasCitas = await getCitas();
+        const hoy = new Date().toISOString().slice(0, 10);
+        const citasHoy = todasLasCitas.filter(c => c.fecha === hoy);
+        setCitas(citasHoy);
       } catch (err) {
         console.error("Error cargando datos:", err);
       }
@@ -37,14 +40,43 @@ export const InicioAsistente = () => {
         <h3 className="text-xl font-semibold text-blue-600 text-center mb-5">{nombreCompleto}</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <StatCard title="Citas Registradas" value={citas.length} icon={<Calendar size={24} />} />
+          <StatCard title="Citas de Hoy" value={citas.length} icon={<Calendar size={24} />} />
           <StatCard title="Pacientes" value={pacientes.length} icon={<User size={24} />} />
           <StatCard title="Servicios" value={servicios.length} icon={<Smile size={24} />} />
         </div>
 
-        <div className="bg-blue-50 p-5 rounded-xl shadow-sm">
-          <h4 className="text-lg font-bold text-blue-700 mb-2">Acciones rápidas</h4>
-          <p className="text-blue-500 italic">(Aquí puedes agregar enlaces a reservas, atención al paciente, etc.)</p>
+        <div className="bg-white p-6 rounded-xl shadow-sm">
+          <h4 className="text-lg font-bold text-blue-700 mb-4">Citas del Día</h4>
+          {citas.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm text-blue-900">
+                <thead>
+                  <tr className="bg-blue-100 text-blue-700">
+                    <th className="py-2 px-4 text-left">Hora</th>
+                    <th className="py-2 px-4 text-left">Paciente</th>
+                    <th className="py-2 px-4 text-left">Servicio</th>
+                    <th className="py-2 px-4 text-left">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {citas.map(cita => (
+                    <tr key={cita.idCita} className="border-b hover:bg-blue-50">
+                      <td className="py-2 px-4">{cita.hora}</td>
+                      <td className="py-2 px-4">
+                        {cita.paciente?.persona?.nombres} {cita.paciente?.persona?.apellidoPaterno}
+                      </td>
+                      <td className="py-2 px-4">
+                        {cita.citaServicios?.map(cs => cs.servicio?.nombre).join(", ") || "Sin servicio"}
+                      </td>
+                      <td className="py-2 px-4 capitalize">{cita.estado || "-"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-blue-400 italic text-center">No hay citas registradas para hoy.</p>
+          )}
         </div>
       </div>
     </AsistLayout>

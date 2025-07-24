@@ -3,15 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getOnePaciente } from "../../../../services/paciente.service";
 import { createHistorialClinico } from "../../../../services/historial-clinico.service";
 import { AdminLayout } from "../../../../components/layouts/AdminLayout";
-import "./RegistrarHistorialClinicoPage.css";
-import { getOdontogramasByHistorial } from "../../../../services/odontograma.service";
-import { Eye } from "lucide-react";
 
 export const RegistrarHistorialClinicoPage = () => {
   const { idPaciente } = useParams();
   const navigate = useNavigate();
   const [paciente, setPaciente] = useState(null);
-  const [odontos, setOdontos] = useState([]);
 
   const [form, setForm] = useState({
     idPaciente: Number(idPaciente),
@@ -26,18 +22,17 @@ export const RegistrarHistorialClinicoPage = () => {
   });
 
   useEffect(() => {
-    // Cargar solo el paciente seleccionado
     getOnePaciente(idPaciente)
-      .then(data => setPaciente(data))
+      .then(setPaciente)
       .catch(console.error);
   }, [idPaciente]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await createHistorialClinico({
@@ -52,42 +47,47 @@ export const RegistrarHistorialClinicoPage = () => {
     }
   };
 
-  
   return (
     <AdminLayout>
-      <div className="registrar-hc-container">
-        <h2 className="page-title">Historial Clínico</h2>
-        <p className="subtitle">Complete el formulario para crear un nuevo registro clínico</p>
+      <div className="max-w-4xl mx-auto mt-6 bg-white p-8 shadow-xl rounded-3xl border border-blue-100">
+        <h2 className="text-2xl font-bold text-blue-900 mb-2 text-center">
+          Registrar Historial Clínico
+        </h2>
+        <p className="text-blue-600 text-center mb-6">
+          Complete los siguientes campos para registrar el historial del paciente
+        </p>
 
-        <form className="hc-form" onSubmit={handleSubmit}>
-          {/* Mostrar solo nombre de paciente */}
-          <div className="form-group">
-            <label>Paciente</label>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Paciente */}
+          <div>
+            <label className="block text-blue-700 font-medium mb-1">Paciente</label>
             <input
               type="text"
+              disabled
               value={
                 paciente
                   ? `${paciente.persona.nombres} ${paciente.persona.apellidoPaterno}`
                   : "Cargando..."
               }
-              disabled
+              className="w-full border border-blue-300 bg-blue-50 text-blue-800 p-3 rounded-lg cursor-not-allowed"
             />
           </div>
 
-          {/* Solo fecha y datos clínicos */}
-          <div className="form-group two-cols">
+          {/* Fecha y Edad */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label>Fecha</label>
+              <label className="block text-blue-700 font-medium mb-1">Fecha</label>
               <input
                 type="date"
                 name="fechaRegistroHistorial"
                 value={form.fechaRegistroHistorial}
                 onChange={handleChange}
                 required
+                className="w-full border border-blue-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div className="small-group">
-              <label>Edad en Consulta</label>
+            <div>
+              <label className="block text-blue-700 font-medium mb-1">Edad en Consulta</label>
               <input
                 type="number"
                 name="edadEnConsulta"
@@ -95,79 +95,97 @@ export const RegistrarHistorialClinicoPage = () => {
                 onChange={handleChange}
                 min={0}
                 required
+                className="w-full border border-blue-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
-          <div className="form-group">
-            <label>Antecedentes Médicos</label>
+          {/* Textareas */}
+          <div>
+            <label className="block text-blue-700 font-medium mb-1">Antecedentes Médicos</label>
             <textarea
               name="antecedentesMedicos"
               value={form.antecedentesMedicos}
               onChange={handleChange}
               rows={3}
               required
+              className="w-full border border-blue-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="form-group">
-            <label>Antecedentes Odontológicos</label>
+          <div>
+            <label className="block text-blue-700 font-medium mb-1">Antecedentes Odontológicos</label>
             <textarea
               name="antecedentesOdontologicos"
               value={form.antecedentesOdontologicos}
               onChange={handleChange}
               rows={3}
               required
+              className="w-full border border-blue-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="form-group">
-            <label>Diagnóstico</label>
+          {/* Diagnóstico */}
+          <div>
+            <label className="block text-blue-700 font-medium mb-1">Diagnóstico</label>
             <input
               type="text"
               name="diagnostico"
               value={form.diagnostico}
               onChange={handleChange}
-              placeholder="Diagnóstico del paciente"
               required
+              placeholder="Diagnóstico del paciente"
+              className="w-full border border-blue-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="form-group">
-            <label>Tratamiento Propuesto</label>
+          {/* Tratamientos */}
+          <div>
+            <label className="block text-blue-700 font-medium mb-1">Tratamiento Propuesto</label>
             <input
               type="text"
               name="tratamientoPropuesto"
               value={form.tratamientoPropuesto}
               onChange={handleChange}
               required
+              className="w-full border border-blue-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="form-group">
-            <label>Tratamiento Realizado</label>
+          <div>
+            <label className="block text-blue-700 font-medium mb-1">Tratamiento Realizado</label>
             <input
               type="text"
               name="tratamientoRealizado"
               value={form.tratamientoRealizado}
               onChange={handleChange}
               required
+              className="w-full border border-blue-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="form-group">
-            <label>Observaciones</label>
+          {/* Observaciones */}
+          <div>
+            <label className="block text-blue-700 font-medium mb-1">Observaciones</label>
             <textarea
               name="observaciones"
               value={form.observaciones}
               onChange={handleChange}
               rows={2}
+              className="w-full border border-blue-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
+              placeholder="(Opcional)"
             />
           </div>
 
-          <button type="submit" className="btn-submit">
-            Guardar Registro
-          </button>
+          {/* Botón */}
+          <div className="flex justify-end pt-4">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-all"
+            >
+              Guardar Registro
+            </button>
+          </div>
         </form>
       </div>
     </AdminLayout>

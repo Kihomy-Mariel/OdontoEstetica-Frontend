@@ -1,46 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AdminLayout } from '../../../components/layouts/AdminLayout';
 import { registerCompra } from '../../../services/compra.service';
-import { useNavigate, NavLink } from 'react-router-dom';
-import { Search } from 'lucide-react';
+import { getAllProveedores } from '../../../services/proveedor.service';
+import { getAllProductos } from '../../../services/producto.service';
+import { useNavigate } from 'react-router-dom';
 
 export const NuevaCompraPage = () => {
   const navigate = useNavigate();
+  const [proveedores, setProveedores] = useState([]);
+  const [productos, setProductos] = useState([]);
   const [form, setForm] = useState({
-    fechaCompra: new Date().toISOString().slice(0,10),
-    proveedor: '',
-    producto: '',
-    total: ''
+    fechaCompra: new Date().toISOString().slice(0, 10),
+    idProveedor: '',
+    detalles: [{ idProducto: '', cantidad: 1, precioUnitario: 0 }]
   });
-  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [nombreProveedorTemp, setNombreProveedorTemp] = useState('');
+  const [nombresProductosTemp, setNombresProductosTemp] = useState(['']);
 
-  const handleChange = e => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const provs = await getAllProveedores();
+        const prods = await getAllProductos();
+        setProveedores(provs);
+        setProductos(prods);
+      } catch (error) {
+        console.error('Error cargando proveedores o productos', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    setNombresProductosTemp(form.detalles.map(() => ''));
+  }, [form.detalles.length]);
+
+  const handleFormChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
-    setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!form.fechaCompra) newErrors.fechaCompra = 'La fecha es requerida';
-    if (!form.proveedor.trim()) newErrors.proveedor = 'El proveedor es requerido';
-    if (!form.producto.trim()) newErrors.producto = 'El producto es requerido';
-    if (form.total === '' || Number(form.total) < 0) newErrors.total = 'Total debe ser >= 0';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const handleDetalleChange = (index, field, value) => {
+    const updated = [...form.detalles];
+    updated[index][field] = field === 'cantidad' || field === 'precioUnitario' ? Number(value) : value;
+    setForm(prev => ({ ...prev, detalles: updated }));
   };
 
-  const handleSubmit = async e => {
+  const addDetalle = () => {
+    setForm(prev => ({
+      ...prev,
+      detalles: [...prev.detalles, { idProducto: '', cantidad: 1, precioUnitario: 0 }]
+    }));
+  };
+
+  const removeDetalle = (index) => {
+    setForm(prev => ({
+      ...prev,
+      detalles: prev.detalles.filter((_, i) => i !== index)
+    }));
+  };
+
+  const calcularTotal = () => {
+    return form.detalles.reduce((acc, item) => acc + item.cantidad * item.precioUnitario, 0);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
     setIsSubmitting(true);
     try {
       const payload = {
+        idEmpleado: 1,
+        idProveedor: Number(form.idProveedor),
         fechaCompra: form.fechaCompra,
-        nombreProveedor: form.proveedor.trim(),
-        nombreProducto: form.producto.trim(),
-        precioTotalCompra: Number(form.total)
+        estado: 'Pagada',
+        detalles: form.detalles.map(d => ({
+          idProducto: Number(d.idProducto),
+          cantidad: d.cantidad,
+          precioUnitario: d.precioUnitario
+        }))
       };
       await registerCompra(payload);
       navigate('/compras');
@@ -55,85 +93,138 @@ export const NuevaCompraPage = () => {
   return (
     <AdminLayout>
       <div className="w-full px-4 py-6 sm:px-8 md:px-16 bg-gray-50 min-h-screen">
-        <h1 className="text-3xl font-bold text-blue-900 mb-6">Gestión de Compras</h1>
-        <nav className="border-b border-gray-200 mb-6">
-          <ul className="flex space-x-8">
-            <li>
-              <NavLink to="/compras/registrar" end className={({isActive}) =>
-                `pb-2 font-medium ${isActive ? 'text-blue-700 border-b-2 border-blue-700' : 'text-gray-500'}`
-              }>
-                Registrar Compra
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/compras" end className={({isActive}) =>
-                `pb-2 font-medium ${isActive ? 'text-blue-700 border-b-2 border-blue-700' : 'text-gray-500'}`
-              }>
-                Historial de Compras
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/compras/por-proveedor" end className={({isActive}) =>
-                `pb-2 font-medium ${isActive ? 'text-blue-700 border-b-2 border-blue-700' : 'text-gray-500'}`
-              }>
-                Por Proveedor
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
-        <div className="bg-white rounded-2xl shadow p-6 max-w-lg mx-auto">
-          <h2 className="text-xl font-semibold mb-4">Nueva Compra</h2>
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="max-w-3xl mx-auto bg-white shadow rounded-2xl p-6">
+          <h2 className="text-xl font-semibold mb-4">Registrar Nueva Compra</h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Fecha de Compra *</label>
+              <label className="block text-sm font-medium mb-1">Fecha de Compra</label>
               <input
                 type="date"
                 name="fechaCompra"
                 value={form.fechaCompra}
-                onChange={handleChange}
-                className={`mt-1 block w-full border ${errors.fechaCompra ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500`}
+                onChange={handleFormChange}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
               />
-              {errors.fechaCompra && <p className="text-red-500 text-xs mt-1">{errors.fechaCompra}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Proveedor *</label>
+              <label className="block text-sm font-medium mb-1">Proveedor</label>
               <input
-                type="text"
-                name="proveedor"
-                value={form.proveedor}
-                onChange={handleChange}
-                placeholder="Ingrese nombre del proveedor"
-                className={`mt-1 block w-full border ${errors.proveedor ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500`}
+                list="proveedores"
+                value={nombreProveedorTemp}
+                placeholder="Buscar proveedor..."
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  setNombreProveedorTemp(inputValue);
+
+                  const seleccionado = proveedores.find(
+                    p => p.nombreCompleto.toLowerCase() === inputValue.toLowerCase()
+                  );
+
+                  if (seleccionado) {
+                    handleFormChange({ target: { name: 'idProveedor', value: seleccionado.idProveedor } });
+                  }
+                }}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
               />
-              {errors.proveedor && <p className="text-red-500 text-xs mt-1">{errors.proveedor}</p>}
+              <datalist id="proveedores">
+                {proveedores.map(p => (
+                  <option key={p.idProveedor} value={p.nombreCompleto} />
+                ))}
+              </datalist>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Producto *</label>
-              <input
-                type="text"
-                name="producto"
-                value={form.producto}
-                onChange={handleChange}
-                placeholder="Ingrese nombre del producto"
-                className={`mt-1 block w-full border ${errors.producto ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500`}
-              />
-              {errors.producto && <p className="text-red-500 text-xs mt-1">{errors.producto}</p>}
+              <div>
+                <label className="block text-sm font-medium mb-2">Productos Comprados</label>
+                {form.detalles.map((detalle, index) => {
+                  const productoSeleccionado = productos.find(p => p.idProducto === Number(detalle.idProducto));
+                  const subtotal = detalle.cantidad * detalle.precioUnitario;
+
+                  return (
+                    <div key={index} className="mb-4 grid grid-cols-5 gap-3 items-end">
+                      {/* Producto */}
+                      <div className="col-span-2">
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Producto</label>
+                        <input
+                          list={`productos-${index}`}
+                          placeholder="Buscar producto..."
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                          value={
+                            detalle.idProducto && productoSeleccionado
+                              ? productoSeleccionado.nombreProducto
+                              : ''
+                          }
+                          onChange={(e) => {
+                            const seleccionado = productos.find(
+                              p => p.nombreProducto.toLowerCase() === e.target.value.toLowerCase()
+                            );
+                            if (seleccionado) {
+                              handleDetalleChange(index, 'idProducto', seleccionado.idProducto);
+                            }
+                          }}
+                        />
+                        <datalist id={`productos-${index}`}>
+                          {productos.map(p => (
+                            <option key={p.idProducto} value={p.nombreProducto} />
+                          ))}
+                        </datalist>
+                      </div>
+
+                      {/* Cantidad */}
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Cantidad</label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={detalle.cantidad}
+                          onChange={(e) => handleDetalleChange(index, 'cantidad', e.target.value)}
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                          placeholder="Ej: 3"
+                        />
+                      </div>
+
+                      {/* Precio Unitario */}
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Precio Unitario (Bs.)</label>
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={detalle.precioUnitario}
+                          onChange={(e) => handleDetalleChange(index, 'precioUnitario', e.target.value)}
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                          placeholder="Ej: 10.50"
+                        />
+                      </div>
+
+                      {/* Subtotal + Eliminar */}
+                      <div className="text-sm font-medium text-gray-600">
+                        <span className="block">Subtotal</span>
+                        <span className="block">{subtotal.toFixed(2)} Bs.</span>
+                        <button
+                          type="button"
+                          onClick={() => removeDetalle(index)}
+                          className="text-red-600 hover:text-red-800 text-xs mt-1"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={addDetalle}
+                className="text-blue-600 hover:underline text-sm mt-2"
+              >
+                + Agregar otro producto
+              </button>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Total (Bs.) *</label>
-              <input
-                type="number"
-                step="0.01"
-                name="total"
-                value={form.total}
-                onChange={handleChange}
-                placeholder="0.00"
-                className={`mt-1 block w-full border ${errors.total ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500`}
-              />
-              {errors.total && <p className="text-red-500 text-xs mt-1">{errors.total}</p>}
+            <div className="text-right text-lg font-semibold text-blue-900">
+              Total: {calcularTotal().toFixed(2)} Bs.
             </div>
 
             <div className="flex justify-end gap-4 pt-4">

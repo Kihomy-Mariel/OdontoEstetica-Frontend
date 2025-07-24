@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getAllPacientes } from "../../services/paciente.service";
 import { getAllServicios } from "../../services/servicio.service";
+import { getCitas } from "../../services/cita.service";
 import { OdontoLayout } from "../../components/layouts/OdontoLayout";
 import { LayoutDashboard, User, Calendar } from "lucide-react";
 
@@ -11,6 +12,7 @@ export const InicioOdontologo = () => {
   const usuario = useSelector((store) => store.usuario);
   const [pacientes, setPacientes] = useState([]);
   const [servicios, setServicios] = useState([]);
+  const [citas, setCitas] = useState([]);
 
   const navigate = useNavigate();
 
@@ -19,6 +21,11 @@ export const InicioOdontologo = () => {
       try {
         setPacientes(await getAllPacientes());
         setServicios(await getAllServicios());
+
+        const todasLasCitas = await getCitas();
+        const hoy = new Date().toISOString().slice(0, 10);
+        const citasDeHoy = todasLasCitas.filter(c => c.fecha === hoy);
+        setCitas(citasDeHoy);
       } catch (err) {
         console.error("Error al cargar datos:", err);
       }
@@ -52,15 +59,44 @@ export const InicioOdontologo = () => {
 
         {/* Estadísticas */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-          <StatBox title="Citas de Hoy" value="7" icon={<Calendar size={24} />} onClick={() => navigate("/turnos")} />
+          <StatBox title="Citas de Hoy" value={citas.length} icon={<Calendar size={24} />} onClick={() => navigate("/turnos")} />
           <StatBox title="Pacientes Activos" value={pacientes.length} icon={<User size={24} />} onClick={() => navigate("/pacientes")} />
           <StatBox title="Servicios Ofrecidos" value={servicios.length} icon={<LayoutDashboard size={24} />} onClick={() => navigate("/servicios")} />
         </div>
 
-        {/* Citas del día (espacio para futuro listado) */}
+        {/* Citas del día */}
         <div className="bg-white rounded-xl p-7 shadow-md">
-          <h3 className="text-xl font-bold text-blue-700 mb-2">Citas del Día</h3>
-          <p className="text-blue-400 text-base italic">(Aquí aparecerán las citas programadas del día)</p>
+          <h3 className="text-xl font-bold text-blue-700 mb-4">Citas del Día</h3>
+          {citas.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm text-blue-900">
+                <thead>
+                  <tr className="bg-blue-100 text-blue-700">
+                    <th className="py-2 px-4 text-left">Hora</th>
+                    <th className="py-2 px-4 text-left">Paciente</th>
+                    <th className="py-2 px-4 text-left">Servicio</th>
+                    <th className="py-2 px-4 text-left">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {citas.map(cita => (
+                    <tr key={cita.idCita} className="border-b hover:bg-blue-50">
+                      <td className="py-2 px-4">{cita.hora}</td>
+                      <td className="py-2 px-4">
+                        {cita.paciente?.persona?.nombres} {cita.paciente?.persona?.apellidoPaterno}
+                      </td>
+                      <td className="py-2 px-4">
+                        {cita.citaServicios?.map(cs => cs.servicio?.nombre).join(", ") || "Sin servicio"}
+                      </td>
+                      <td className="py-2 px-4 capitalize">{cita.estado || "-"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-blue-400 italic text-center">No hay citas registradas para hoy.</p>
+          )}
         </div>
       </div>
     </OdontoLayout>

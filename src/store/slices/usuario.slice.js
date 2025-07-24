@@ -1,85 +1,91 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { login, registerCompletoUsuario } from "../../services/auth.service";
 
-// Estado inicial (intenta leer desde localStorage)
+// Utilidad: formato de rol
+const formatRol = (rol) =>
+  rol?.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") || "";
+
+// Utilidad: mapear los datos del usuario desde la respuesta
+const mapUserData = (payload) => {
+  const persona = payload.persona || {};
+  return {
+    idPersona: persona.idPersona,
+    nombre: persona.nombres || "",
+    apellidoPaterno: persona.apellidoPaterno || "",
+    apellidoMaterno: persona.apellidoMaterno || "",
+    email: persona.email || "",
+    ci: persona.ci || "",
+    fechaNacimiento: persona.fechaNacimiento || "",
+    telefono: persona.telefono || "",
+    fechaRegistro: persona.fechaRegistro || "",
+    token: payload.token || "",
+    rol: formatRol(payload.rol),
+    id: payload.id || "",
+    username: payload.username || "",
+  };
+};
+
+// Estado base por defecto
+const defaultState = {
+  idPersona: "",
+  nombre: "",
+  apellidoPaterno: "",
+  apellidoMaterno: "",
+  email: "",
+  token: "",
+  rol: "",
+  id: "",
+  username: "",
+  ci: "",
+  fechaNacimiento: "",
+  telefono: "",
+  fechaRegistro: "",
+  loading: false,
+  error: null,
+  success: false,
+};
+
+// Estado inicial con persistencia
 const initialState = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
-  : {
-    nombre: "",
-    apellidoPaterno: "",
-    apellidoMaterno: "",
-    email: "",
-    token: "",
-    rol: "",
-    id: "",
-    username: "",
-    ci: "",
-    fechaNacimiento: "",
-    telefono: "",
-    fechaRegistro: "",
-    loading: false,
-    error: null,
-    success: false,  // <- puedes usar para feedback de éxito
-  };
+  : defaultState;
 
 const usuarioSlice = createSlice({
   name: "usuario",
   initialState,
   reducers: {
-    // Almacena los datos tras login
-    loginSlice: (state, action) => {
-      const persona = action.payload.persona || {};
-      const data = {
-        nombre: persona.nombres || "",
-        apellidoPaterno: persona.apellidoPaterno || "",
-        apellidoMaterno: persona.apellidoMaterno || "",
-        email: persona.email || "",
-        ci: persona.ci || "",
-        fechaNacimiento: persona.fechaNacimiento || "",
-        telefono: persona.telefono || "",
-        fechaRegistro: persona.fechaRegistro || "",
-        token: action.payload.token,
-        rol: action.payload.rol
-          ?.toUpperCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, ""),
-        id: action.payload.id,
-        username: action.payload.username,
-      };
-      const newState = { ...state, ...data };
+    setUser(state, action) {
+      const userData = mapUserData(action.payload);
+      const newState = { ...state, ...userData };
       localStorage.setItem("userInfo", JSON.stringify(newState));
       return newState;
     },
-
-    // Limpia el estado al cerrar sesión
-    cerrarSesion: () => {
+    cerrarSesion() {
       localStorage.removeItem("userInfo");
-      return { ...initialState };
+      return { ...defaultState };
     },
-
-    // --- Reducers para el registro ---
-    registerStart: (state) => {
+    registerStart(state) {
       state.loading = true;
       state.error = null;
       state.success = false;
     },
-    registerSuccess: (state) => {
+    registerSuccess(state) {
       state.loading = false;
       state.success = true;
     },
-    registerFailure: (state, action) => {
+    registerFailure(state, action) {
       state.loading = false;
       state.error = action.payload;
       state.success = false;
     },
-    resetSuccess: (state) => {
+    resetSuccess(state) {
       state.success = false;
-    }
+    },
   },
 });
 
 export const {
-  loginSlice,
+  setUser,
   cerrarSesion,
   registerStart,
   registerSuccess,
@@ -90,26 +96,29 @@ export const {
 export default usuarioSlice.reducer;
 
 // Thunk para login
-export const loginThunk = (data, navigate) => async (dispatch) => {
-  try {
-    const response = await login(data);
-    dispatch(loginSlice(response));
-    navigate("/inicio");
-  } catch (err) {
-    throw err;
+export const loginThunk = createAsyncThunk(
+  "usuario/loginThunk",
+  async (data, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await login(data);
+      dispatch(setUser(response));
+      return response;
+    } catch (err) {
+      const msg = err?.response?.data?.message || "Error inesperado";
+      return rejectWithValue(msg);
+    }
   }
-};
+);
 
-// Thunk para registro de paciente
+// Thunk para registro completo
 export const registerCompletoThunk = (payload, navigate) => async (dispatch) => {
   dispatch(registerStart());
   try {
     await registerCompletoUsuario(payload);
     dispatch(registerSuccess());
-    // Puedes redirigir a login y mostrar un mensaje
     navigate('/', { state: { registered: true } });
   } catch (err) {
-    const msg = err.response?.data?.message || 'Error al registrar paciente';
+    const msg = err?.response?.data?.message || 'Error al registrar paciente';
     dispatch(registerFailure(msg));
   }
 };

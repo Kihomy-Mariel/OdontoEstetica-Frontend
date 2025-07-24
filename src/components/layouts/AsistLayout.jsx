@@ -23,7 +23,6 @@ const MENU_ASISTENTE = [
   { label: "Citas", icon: Calendar, path: "/asistente/citas" },
   { label: "Servicios", icon: Stethoscope, path: "/asistente/servicios" },
   { label: "Pagos", icon: CreditCard, path: "/asistente/pagos" },
-  { label: "Recibos", icon: FileText, path: "/asistente/recibos" },
   { label: "Turnos", icon: Clock, path: "/asistente/turnos" },
 ];
 

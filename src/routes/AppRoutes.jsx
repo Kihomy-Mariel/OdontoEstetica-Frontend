@@ -67,9 +67,13 @@ import { RecibosPageAsist } from "../pages/asistente/recibos/RecibosPageAsist";
 import { TurnosPageAsist } from "../pages/asistente/turnos/TurnosPageAsist";
 import { RegistrarTurnoPageAsist } from "../pages/asistente/turnos/RegistrarTurnoPageAsist";
 import { ActualizarTurnoPageAsist } from "../pages/asistente/turnos/ActualizarTurnoPageAsist";
-
-// Rutas odontologo
-// import { TurnosPageOdonto } from "../pages/odontologo/TurnosPage";
+import { OdontologosPage } from "../pages/paciente/odontologo/odontologosPage";
+import { OdontologoServiciosPage } from "../pages/paciente/odontologo/OdontologoServiciosPage";
+import { UsuariosPageAdm } from "../pages/adm/usuario/UsuariosPageAdm";
+import { PagosPacientePage } from "../pages/paciente/pago/PagosPacientePage";
+import { VerPagoPacientePage } from "../pages/paciente/pago/VerPagoPacientePage";
+import { VerReciboPacientePage } from "../pages/paciente/pago/VerReciboPacientePage";
+import {GenerarRecibo} from "../pages/adm/recibo/GenerarRecibo";
 
 export const AppRoutes = () => {
   return (
@@ -161,8 +165,8 @@ export const AppRoutes = () => {
           element={<RegistrarProductoPageAdm />}
         />
         <Route
-          path="/productos/editar/:id" 
-          element={<ActualizarProductoPageAdm />} 
+          path="/productos/editar/:id"
+          element={<ActualizarProductoPageAdm />}
         />
 
 
@@ -174,6 +178,8 @@ export const AppRoutes = () => {
         <Route path="/registrar-pago" element={<RegistrarPagoPageAdm />} />
         <Route path="/ver-pago/:idPago" element={<VerPagoPageAdm />} />
         <Route path="/ver-recibo/:idRecibo" element={<VerReciboPage />} />
+        <Route path="/usuarios" element={<UsuariosPageAdm />}/>
+        <Route path="/generar-recibo/:idPago" element={<GenerarRecibo />} />
       </Route>
 
       {/* RUTAS ASISTENTE */}
@@ -238,8 +244,10 @@ export const AppRoutes = () => {
 
         <Route
           path="/ver-recibo/:idRecibo"
-          element={<VerReciboPage/>}
+          element={<VerReciboPage />}
         />
+
+
 
       </Route>
 
@@ -256,6 +264,11 @@ export const AppRoutes = () => {
         <Route path="/reservar-cita" element={<ReservarCitaPage />} />
         <Route path="/paciente/servicios" element={<ServiciosPacientePage />} />
         <Route path="/paciente/horario" element={<HorariosDoctoresPage />} />
+        <Route path="/paciente/odontologos" element={<OdontologosPage />} />
+        <Route path="/pacientes/doctores-servicios/:idEmpleado" element={<OdontologoServiciosPage />} />
+        <Route path="/pagos-paciente" element={<PagosPacientePage />} />
+        <Route path="/ver-pago-paciente/:idPago" element={<VerPagoPacientePage />} />
+        <Route path="/ver-recibo-paciente/:idRecibo" element={<VerReciboPacientePage />} />
       </Route>
     </Routes>
   );

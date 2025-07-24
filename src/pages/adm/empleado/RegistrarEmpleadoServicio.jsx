@@ -52,7 +52,7 @@ export const RegistrarEmpleadoServicioPage = () => {
         idServicio: Number(form.idServicio),
         observaciones: form.observaciones.trim(),
       });
-     navigate(`/empleados/${idEmpleado}/servicios`);
+      navigate(`/empleados/${idEmpleado}/servicios`);
 
     } catch {
       setError('No se pudo registrar el servicio.');
@@ -125,9 +125,21 @@ export const RegistrarEmpleadoServicioPage = () => {
             <select
               className="w-full border border-blue-200 rounded-xl px-4 py-2 text-blue-900 focus:outline-none focus:border-blue-500"
               value={form.idServicio}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, idServicio: e.target.value }))
-              }
+              onChange={(e) => {
+                const selectedId = e.target.value;
+                const servicioSeleccionado = servicios.find(
+                  (s) => String(s.idServicio) === selectedId
+                );
+
+                setForm((f) => ({
+                  ...f,
+                  idServicio: selectedId,
+                  observaciones: f.observaciones.trim()
+                    ? f.observaciones // ya escribió algo → no lo cambiamos
+                    : servicioSeleccionado?.descripcion ?? '', // si está vacío, usar descripción
+                }));
+              }}
+
               required
             >
               <option value="">— Selecciona un servicio —</option>

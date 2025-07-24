@@ -14,7 +14,6 @@ const columnas = [
   "Stock Actual",
   "Stock Mínimo",
   "Unidad Medida",
-  "Habilitado",
   "Acciones",
 ];
 
@@ -50,23 +49,8 @@ export const ProductoPageAdm = () => {
   };
 
 
-  const handleToggleStatus = async (id, currentStatus) => {
-    const newStatus = !currentStatus;
-    const confirmMessage = newStatus
-      ? "¿Desea reactivar este producto?"
-      : "¿Desea desactivar este producto?";
 
-    if (window.confirm(confirmMessage)) {
-      try {
-        await updateProducto(id, { habilitado: newStatus });
-        toast.success(`Producto ${newStatus ? "activado" : "desactivado"} correctamente`);
-        cargarProductos(); // Recargar la lista
-      } catch (error) {
-        toast.error("No se pudo cambiar el estado del producto");
-        console.error(error);
-      }
-    }
-  };
+
 
   const handleEliminar = async (id) => {
     if (window.confirm("¿Seguro de eliminar este producto?")) {
@@ -148,17 +132,6 @@ export const ProductoPageAdm = () => {
                       <td className="px-4 py-3">{prod.stockActual}</td>
                       <td className="px-4 py-3">{prod.stockMinimo}</td>
                       <td className="px-4 py-3">{prod.unidadMedida}</td>
-                      <td className="px-4 py-3">
-                        {prod.habilitado ? (
-                          <span className="px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">
-                            Activo
-                          </span>
-                        ) : (
-                          <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold">
-                            Inactivo
-                          </span>
-                        )}
-                      </td>
                       <td className="px-4 py-3 flex gap-2">
                         <button
                           className="p-2 rounded-lg hover:bg-blue-100 text-blue-600"
@@ -167,13 +140,7 @@ export const ProductoPageAdm = () => {
                         >
                           <Edit size={18} />
                         </button>
-                        <button
-                          className="p-2 rounded-lg hover:bg-yellow-100 text-yellow-600"
-                          title={prod.habilitado ? "Desactivar" : "Activar"}
-                          onClick={() => handleToggleStatus(prod.idProducto, prod.habilitado)}
-                        >
-                          <Power size={18} />
-                        </button>
+
                         <button
                           className="p-2 rounded-lg hover:bg-red-100 text-red-600"
                           title="Eliminar"

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import {
   LogOut,
-  User,
+  CreditCard,
   Calendar,
+  Smile,
   Stethoscope,
   Clock,
   ClipboardList,
@@ -21,11 +22,11 @@ const perfilDefault = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
 const MENU_PACIENTE = [
   { label: "Inicio", icon: Home, path: "/inicio-paciente" },
   { label: "Reservar Cita", icon: Calendar, path: "/reservar-cita" },
-  { label: "Servicios", icon: Stethoscope, path: "/paciente/servicios" },
-  { label: "Horario Doctores", icon: Clock, path: "/paciente/horario" },
-  { label: "Odontograma", icon: ClipboardList, path: "/odontograma" },
+  { label: "Pagos", icon: CreditCard, path: "/pagos-paciente" },
+  { label: "Servicios", icon: Smile, path: "/paciente/servicios" },
+  { label: "Odontólogos", icon: Stethoscope, path: "/paciente/odontologos" },
   { label: "Historial Clínico", icon: FileText, path: "/historial-clinico" },
-  { label: "Archivos Clínicos", icon: FileArchive, path: "/archivos-clinicos" },
+
 ];
 
 export const PacienteLayout = ({ children }) => {

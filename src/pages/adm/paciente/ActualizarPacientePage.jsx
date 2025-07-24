@@ -46,7 +46,7 @@ export const ActualizarPacientePage = () => {
             apellidoMaterno: data.persona?.apellidoMaterno || "",
             ci: data.persona?.ci || "",
             fechaNacimiento: data.persona?.fechaNacimiento ? data.persona.fechaNacimiento.slice(0,10) : "",
-            telefono: data.persona?.telefono || "",
+            telefono: data.persona?.telefono.toString() || "",
             email: data.persona?.email || "",
           },
           paciente: {

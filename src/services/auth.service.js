@@ -12,17 +12,19 @@ export const login = async ({ username, password }) => {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, ""),
     persona: {
-      nombres:          data.persona.nombres,
-      apellidoPaterno:  data.persona.apellidoPaterno,
-      apellidoMaterno:  data.persona.apellidoMaterno,
-      email:            data.persona.email,
-      ci:               data.persona.ci,               // <-- AGREGADO
-      telefono:         data.persona.telefono,         // <-- AGREGADO
-      fechaNacimiento:  data.persona.fechaNacimiento,  // <-- AGREGADO
-      fechaRegistro:    data.persona.fechaRegistro,    // <-- AGREGADO
+      idPersona: data.persona.idPersona,   // ✅ aquí
+      nombres:         data.persona.nombres,
+      apellidoPaterno: data.persona.apellidoPaterno,
+      apellidoMaterno: data.persona.apellidoMaterno,
+      email:           data.persona.email,
+      ci:              data.persona.ci,
+      telefono:        data.persona.telefono,
+      fechaNacimiento: data.persona.fechaNacimiento,
+      fechaRegistro:   data.persona.fechaRegistro,
     },
   };
 };
+
 
 export const registerCompletoUsuario = async (payload) => {
   const { data } = await axiosConsultorio.post('/auth/register-paciente', payload);

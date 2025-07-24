@@ -3,204 +3,98 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getAllServicios } from "../../services/servicio.service";
 import { getCitasByPaciente } from "../../services/cita.service";
-import { User, Calendar, Stethoscope, ClipboardList, FileText, Clock, FileArchive } from "lucide-react";
+import { User, Calendar, Clock } from "lucide-react";
 import { PacienteLayout } from "../../components/layouts/PacienteLayout";
 
 export const InicioPaciente = () => {
-    const navigate = useNavigate();
-    const usuario = useSelector((store) => store.usuario);
-    const [servicios, setServicios] = useState([]);
-    const [citasProximas, setCitasProximas] = useState([]);
+  const navigate = useNavigate();
+  const usuario = useSelector((store) => store.usuario);
+  const [servicios, setServicios] = useState([]);
+  const [citasProximas, setCitasProximas] = useState([]);
 
-    const nombreCompleto = `${usuario.nombre ?? ""} ${usuario.apellidoPaterno ?? ""} ${usuario.apellidoMaterno ?? ""}`.trim();
+  const nombreCompleto = `${usuario.nombre ?? ""} ${usuario.apellidoPaterno ?? ""} ${usuario.apellidoMaterno ?? ""}`.trim();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setServicios(await getAllServicios());
-                if (usuario?.idPersona) {
-                    // Obtener citas del paciente
-                    const citas = await getCitasByPaciente(usuario.idPersona);
-                    setCitasProximas(citas.filter(cita => new Date(cita.fecha) >= new Date()).slice(0, 3));
-                }
-            } catch (err) {
-                console.error("Error fetching data:", err);
-            }
-        };
-        fetchData();
-    }, [usuario]);
-
-    const handleLogout = () => {
-        localStorage.removeItem("userInfo");
-        navigate("/");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setServicios(await getAllServicios());
+        if (usuario?.idPersona) {
+          const citas = await getCitasByPaciente(usuario.idPersona);
+          const hoy = new Date().toISOString().split("T")[0];
+          const futuras = citas
+            .filter(cita => cita.fecha >= hoy)
+            .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+          setCitasProximas(futuras.slice(0, 5));
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
     };
+    fetchData();
+  }, [usuario]);
 
-    return (
-      <PacienteLayout>
-        <div style={{ backgroundColor: "#f0f6ff", minHeight: "100vh", padding: "20px" }}>
-          <main style={{
-            maxWidth: "1000px",
-            marginInline: "auto",
-            paddingBottom: "50px"
-          }}>
-            <h2 style={{
-              color: "#1976d2",
-              marginBottom: "30px",
-              fontSize: "28px",
-              fontWeight: "bold",
-              textAlign: "center"
-            }}>
-              ¡Bienvenido, <span style={{ color: "#42a5f5" }}>{usuario.nombre || 'Paciente'}</span>!
-            </h2>
+  return (
+    <PacienteLayout>
+      <div className="max-w-4xl mx-auto py-10 px-4 bg-gradient-to-br from-blue-50 via-white to-blue-100 rounded-3xl shadow-xl mt-5 mb-10 animate-fade-in-up">
+        <h2 className="text-3xl font-extrabold text-blue-800 mb-8 text-center">
+          ¡Bienvenido, <span className="text-blue-400">{usuario.nombre || 'Paciente'}</span>!
+        </h2>
 
-            {/* Card de perfil */}
-            <div style={{
-              backgroundColor: "#fff",
-              borderRadius: "16px",
-              padding: "25px",
-              marginBottom: "30px",
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)"
-            }}>
-              <h3 style={{
-                fontSize: "22px",
-                fontWeight: "bold",
-                color: "#1976d2",
-                marginBottom: "20px",
-                textAlign: "center"
-              }}>{nombreCompleto}</h3>
-
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "15px"
-              }}>
-                <ProfileField label="Rol" value={usuario.rol} />
-                <ProfileField label="Usuario" value={usuario.username} />
-                <ProfileField label="Correo" value={usuario.email} />
-                <ProfileField label="CI" value={usuario.ci} />
-                <ProfileField label="Teléfono" value={usuario.telefono} />
-                <ProfileField
-                  label="Fecha de nacimiento"
-                  value={usuario.fechaNacimiento ? formatDate(usuario.fechaNacimiento) : "-"}
-                />
-              </div>
-            </div>
-
-            {/* Citas próximas */}
-            <div style={{
-              backgroundColor: "#fff",
-              borderRadius: "12px",
-              padding: "25px",
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)"
-            }}>
-              <h3 style={{
-                fontSize: "20px",
-                fontWeight: "bold",
-                color: "#1976d2",
-                marginBottom: "20px"
-              }}>Próximas Citas</h3>
-
-              {citasProximas.length > 0 ? (
-                <div style={{ display: "grid", gap: "15px" }}>
-                  {citasProximas.map(cita => (
-                    <div key={cita.id} style={{
-                      borderBottom: "1px solid #eee",
-                      paddingBottom: "15px",
-                      marginBottom: "15px",
-                      ":last-child": {
-                        borderBottom: "none",
-                        marginBottom: "0"
-                      }
-                    }}>
-                      <div style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginBottom: "5px"
-                      }}>
-                        <span style={{
-                          fontWeight: "500",
-                          color: "#1565c0"
-                        }}>
-                          {formatDate(cita.fecha)} a las {cita.hora}
-                        </span>
-                        <button
-                          onClick={() => navigate(`/citas/${cita.id}`)}
-                          style={{
-                            color: "#1976d2",
-                            fontWeight: "600",
-                            fontSize: "14px",
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer"
-                          }}
-                        >
-                          Ver detalles
-                        </button>
-                      </div>
-                      <div style={{ color: "#42a5f5", fontSize: "14px" }}>
-                        {cita.servicio?.nombre || 'Servicio no especificado'}
-                      </div>
-                      <div style={{ color: "#90caf9", fontSize: "12px" }}>
-                        Dr. {cita.empleado?.nombre || 'Doctor no asignado'}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p style={{
-                  color: "#90caf9",
-                  fontStyle: "italic",
-                  textAlign: "center",
-                  padding: "20px 0"
-                }}>
-                  No tienes citas programadas próximamente.
-                </p>
-              )}
-            </div>
-          </main>
+        {/* Card de perfil */}
+        <div className="bg-white rounded-2xl p-6 mb-10 shadow">
+          <h3 className="text-2xl font-bold text-blue-700 mb-4 text-center">{nombreCompleto}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+            <ProfileField label="Rol" value={usuario.rol} />
+            <ProfileField label="Usuario" value={usuario.username} />
+            <ProfileField label="Correo" value={usuario.email} />
+            <ProfileField label="CI" value={usuario.ci} />
+            <ProfileField label="Teléfono" value={usuario.telefono} />
+            <ProfileField label="Fecha de nacimiento" value={usuario.fechaNacimiento ? formatDate(usuario.fechaNacimiento) : "-"} />
+          </div>
         </div>
-      </PacienteLayout>
-    );
+
+        {/* Citas próximas */}
+        <div className="bg-white rounded-xl p-6 shadow-md">
+          <h3 className="text-xl font-bold text-blue-700 mb-4 flex items-center gap-2">
+            <Calendar size={20} /> Próximas Citas
+          </h3>
+          {citasProximas.length > 0 ? (
+            <div className="divide-y divide-blue-100">
+              {citasProximas.map((cita, index) => (
+                <div key={cita.idCita} className="py-3">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-blue-800 font-medium">
+                      {formatDate(cita.fecha)} a las {cita.hora}
+                    </span>
+                  </div>
+
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-blue-300 italic text-center py-4">
+              No tienes citas programadas próximamente.
+            </p>
+          )}
+        </div>
+      </div>
+    </PacienteLayout>
+  );
 };
 
-
-// Componente para mostrar cada campo de perfil
 const ProfileField = ({ label, value }) => (
-    <div style={{ marginBottom: "10px" }}>
-        <span style={{
-            display: "block",
-            fontSize: "12px",
-            fontWeight: "600",
-            color: "#42a5f5",
-            marginBottom: "2px"
-        }}>{label}</span>
-        <span style={{
-            fontSize: "14px",
-            fontWeight: "500",
-            color: "#1976d2"
-        }}>{value || "-"}</span>
-    </div>
+  <div>
+    <span className="block text-xs font-semibold text-blue-400 mb-1">{label}</span>
+    <span className="text-sm font-medium text-blue-700">{value || "-"}</span>
+  </div>
 );
 
-// Formateador de fecha
 const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("es-BO", { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    });
-};
-
-// Estilos constantes
-const buttonRed = {
-    padding: "10px 15px",
-    backgroundColor: "#d32f2f",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    fontWeight: "500"
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("es-BO", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 };

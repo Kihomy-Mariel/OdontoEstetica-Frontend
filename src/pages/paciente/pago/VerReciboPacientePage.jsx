@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AdminLayout } from "../../../components/layouts/AdminLayout";
+import { PacienteLayout } from "../../../components/layouts/PacienteLayout";
 import { getOneRecibo } from "../../../services/recibo.service";
 import { AiOutlineDownload } from "react-icons/ai";
 import html2pdf from "html2pdf.js";
-import { ReciboImprimible } from "./ReciboImprimible";
+import { ReciboImprimiblePaciente } from "./ReciboImprimiblePaciente";
 
-export const VerReciboPage = () => {
+export const VerReciboPacientePage = () => {
   const { idRecibo } = useParams();
   const navigate = useNavigate();
   const [recibo, setRecibo] = useState(null);
@@ -87,15 +87,15 @@ export const VerReciboPage = () => {
 
   /* ──────────── estados intermedios ──────────── */
   if (loading) return (
-    <AdminLayout>
+    <PacienteLayout>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-400" />
       </div>
-    </AdminLayout>
+    </PacienteLayout>
   );
 
   if (error) return (
-    <AdminLayout>
+    <PacienteLayout>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
         <div className="bg-white p-8 rounded-2xl shadow-xl border-t-8 border-red-400 text-center">
           <p className="text-red-600 font-bold text-lg mb-4">{error}</p>
@@ -107,12 +107,12 @@ export const VerReciboPage = () => {
           </button>
         </div>
       </div>
-    </AdminLayout>
+    </PacienteLayout>
   );
 
   /* ──────────── render final ──────────── */
   return (
-    <AdminLayout>
+    <PacienteLayout>
       <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-50 flex flex-col items-center p-4 md:p-10">
         {/* Botón imprimir */}
         <div className="flex justify-end w-full max-w-2xl mb-3">
@@ -128,7 +128,7 @@ export const VerReciboPage = () => {
         </div>
 
         {/* Recibo imprimible */}
-        <ReciboImprimible ref={printRef} recibo={recibo} />
+        <ReciboImprimiblePaciente ref={printRef} recibo={recibo} />
 
         {/* Botón volver (no sale en impresión) */}
         <div className="flex justify-center mt-8 print:hidden">
@@ -140,6 +140,6 @@ export const VerReciboPage = () => {
           </button>
         </div>
       </div>
-    </AdminLayout>
+    </PacienteLayout>
   );
 };

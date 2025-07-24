@@ -25,25 +25,28 @@ export const RegistrarProveedorPage = () => {
     setLoading(true);
     setError("");
     try {
-      // Convierte strings numéricos a números antes de enviar:
       const cleanForm = {
         ...form,
-        telefono: Number(form.telefono),
+        telefono: parseInt(form.telefono, 10),
       };
+
+      console.log("Datos enviados al backend:", cleanForm); // Puedes quitar esto después
+
       await registerProveedor(cleanForm);
       navigate("/proveedores");
     } catch (err) {
-      if (err.response) {
-        console.error("Detalles del error:", err.response.data);
-        setError("Error al registrar proveedor: " + (err.response.data.message?.join(", ") || ""));
-      } else {
-        setError("Error inesperado al registrar proveedor.");
+      console.error("Detalles del error:", err.response?.data || err.message);
+      let message = "Error inesperado al registrar proveedor.";
+      if (err.response?.data?.message) {
+        message = Array.isArray(err.response.data.message)
+          ? err.response.data.message.join(", ")
+          : err.response.data.message;
       }
+      setError("Error al registrar proveedor: " + message);
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <AdminLayout>
@@ -59,7 +62,6 @@ export const RegistrarProveedorPage = () => {
           className="bg-white p-8 rounded-2xl shadow-lg border border-blue-100 space-y-6"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
             <div>
               <label className="block text-blue-900 font-medium mb-1">
                 Teléfono

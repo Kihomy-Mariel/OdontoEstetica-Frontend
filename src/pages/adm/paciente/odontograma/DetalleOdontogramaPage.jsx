@@ -52,12 +52,6 @@ export const DetalleOdontogramaPage = () => {
             {detalles.map(d => (
               <li key={d.idDetalle} className="diente-item">
                 <span className="diente-numero">Diente {d.numeroPiezaDental}</span>
-                <button
-                  className="btn-ver-detalle"
-                  onClick={() => irADetalle(d.idDetalle)}
-                >
-                  🔍 Ver detalle
-                </button>
               </li>
             ))}
           </ul>
